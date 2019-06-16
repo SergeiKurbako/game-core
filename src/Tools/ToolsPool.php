@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Tools;
+namespace Avior\GameCore\Tools;
 
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\ITool;
 
 /**
  * Набор инструменов для рабочих

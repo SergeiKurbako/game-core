@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Classes\GameCore\Workers;
+namespace Avior\GameCore\Workers;
 
-use App\Classes\GameCore\Base\IWorker;
-use App\Classes\GameCore\Base\ISubject;
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IObserver;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IWorker;
+use Avior\GameCore\Base\ISubject;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IObserver;
+use Avior\GameCore\Base\IDataPool;
 
 /**
  * Класс для работы с игровыми данными

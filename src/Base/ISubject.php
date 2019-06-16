@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IDataPool;
 
 /**
  * Интерфейс для создания объекта который может создать события

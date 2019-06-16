@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Classes\GameCore;
+namespace Avior\GameCore;
 
-use App\Classes\GameCore\Base\IGame;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IWorkersPool;
-use App\Classes\GameCore\Base\IActionsPool;
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\IRequestDataSets;
-use App\Classes\GameCore\Data\DataPool;
-use App\Classes\GameCore\Workers\WorkersPool;
+use Avior\GameCore\Base\IGame;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IWorkersPool;
+use Avior\GameCore\Base\IActionsPool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Data\DataPool;
+use Avior\GameCore\Workers\WorkersPool;
 
 /**
  * Общий класс для управления игрой

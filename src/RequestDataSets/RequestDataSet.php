@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\RequestDataSets;
+namespace Avior\GameCore\RequestDataSets;
 
-use App\Classes\GameCore\Base\IRequestDataSet;
+use Avior\GameCore\Base\IRequestDataSet;
 
 /**
  * Класс описывающий все данные, которые могут получаться из запросов

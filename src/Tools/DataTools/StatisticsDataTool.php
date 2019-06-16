@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\DataTools;
+namespace Avior\GameCore\Tools\DataTools;
 
-use App\Classes\GameCore\Base\ITool;
-use App\Classes\GameCore\Base\IData;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\ITool;
+use Avior\GameCore\Base\IData;
+use Avior\GameCore\Base\IDataPool;
 use App\Models\V2Statistic;
 
 /**

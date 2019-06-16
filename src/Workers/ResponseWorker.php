@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Workers;
+namespace Avior\GameCore\Workers;
 
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Data\DataPool;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Data\DataPool;
 
 /**
  * Класс занимается генерацией ответа для фронта

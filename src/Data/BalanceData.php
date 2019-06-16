@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Data;
+namespace Avior\GameCore\Data;
 
-use App\Classes\GameCore\Base\IData;
+use Avior\GameCore\Base\IData;
 
 /**
  * Класс содержит все данные, которые связаны с балансом

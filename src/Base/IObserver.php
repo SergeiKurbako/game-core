@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IDataPool;
 
 interface IObserver
 {

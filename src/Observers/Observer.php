@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Observers;
+namespace Avior\GameCore\Observers;
 
-use App\Classes\GameCore\Base\IObserver;
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IObserver;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IDataPool;
 
 abstract class Observer implements IObserver
 {

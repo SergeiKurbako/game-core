@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Exeptions;
+namespace Avior\GameCore\Exeptions;
 
 use Exception;
 
 class IncorrectRequestExeption extends Exception
 {
-    
+
 }

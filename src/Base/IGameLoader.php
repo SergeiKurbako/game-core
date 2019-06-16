@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\Game\Base;
+namespace Avior\Game\Base;
 
-use App\Classes\GameCore\Base\IGame;
+use Avior\GameCore\Base\IGame;
 
 interface IGameLoader
 {

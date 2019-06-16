@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes\GameCore\Exeptions\Worker\BalancWorker;
+namespace Avior\GameCore\Exeptions\Worker\BalancWorker;
 
 use Exception;
 

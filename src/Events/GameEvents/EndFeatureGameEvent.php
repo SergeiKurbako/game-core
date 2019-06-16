@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Events\GameEvents;
+namespace Avior\GameCore\Events\GameEvents;
 
-use App\Classes\GameCore\Events\BaseEvent;
+use Avior\GameCore\Events\BaseEvent;
 
 class EndFeatureGameEvent extends BaseEvent
 {

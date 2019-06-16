@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
 interface IEvent
 {
-    
+
 }

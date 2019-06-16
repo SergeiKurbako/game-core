@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IAction;
+use Avior\GameCore\Base\IAction;
 
 /**
  * Интерфейс для класса выполняющего определенное действие

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\StatisticsTools;
+namespace Avior\GameCore\Tools\StatisticsTools;
 
-use App\Classes\GameCore\Base\ITool;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\ITool;
+use Avior\GameCore\Base\IDataPool;
 
 /**
  * Ведение статистики

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IWorkersPool;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\IRequestDataSets;
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IObserver;
+use Avior\GameCore\Base\IWorkersPool;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IObserver;
 
 /**
  * Интерфейс для класса выполняющего определенное действие

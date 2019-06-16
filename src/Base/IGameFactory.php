@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IGame;
+use Avior\GameCore\Base\IGame;
 use Illuminate\Http\Request;
 
 interface IGameFactory

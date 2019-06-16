@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\RequestDataSets;
+namespace Avior\GameCore\RequestDataSets;
 
-use App\Classes\GameCore\RequestDataSets\RequestDataSet;
+use Avior\GameCore\RequestDataSets\RequestDataSet;
 
 class CloseGameRequestData extends RequestDataSet
 {
-    
+
 }

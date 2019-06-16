@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\BalanceTools;
+namespace Avior\GameCore\Tools\BalanceTools;
 
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\ITool;
 
 /**
  * Проверки возможности выполнения действия.

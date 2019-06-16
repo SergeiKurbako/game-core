@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Workers;
+namespace Avior\GameCore\Workers;
 
-use App\Classes\GameCore\Base\IWorkersPool;
-use App\Classes\GameCore\Base\IWorker;
+use Avior\GameCore\Base\IWorkersPool;
+use Avior\GameCore\Base\IWorker;
 
 /**
  *

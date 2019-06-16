@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Classes\GameCore\Actions;
+namespace Avior\GameCore\Actions;
 
-use App\Classes\GameCore\Base\IAction;
-use App\Classes\GameCore\Base\IWorkersPool;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\IRequestDataSets;
-use App\Classes\GameCore\Events\ActionEvents\StartActionSpinEvent;
-use App\Classes\GameCore\Events\ActionEvents\EndActionSpinEvent;
+use Avior\GameCore\Base\IAction;
+use Avior\GameCore\Base\IWorkersPool;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Events\ActionEvents\StartActionSpinEvent;
+use Avior\GameCore\Events\ActionEvents\EndActionSpinEvent;
 
 /**
  * Класс выполняет действие запуска игры на сервере

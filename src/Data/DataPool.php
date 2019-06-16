@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Data;
+namespace Avior\GameCore\Data;
 
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IData;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IData;
 
 /**
  * Пул объектов данных

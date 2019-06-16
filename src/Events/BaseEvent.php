@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Events;
+namespace Avior\GameCore\Events;
 
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
 
 abstract class BaseEvent implements IEvent
 {

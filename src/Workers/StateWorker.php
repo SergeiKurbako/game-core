@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Classes\GameCore\Workers;
+namespace Avior\GameCore\Workers;
 
-use App\Classes\GameCore\Workers\Worker;
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Events\GameEvents\StartFeatureGameEvent;
-use App\Classes\GameCore\Events\GameEvents\EndFeatureGameEvent;
+use Avior\GameCore\Workers\Worker;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Events\GameEvents\StartFeatureGameEvent;
+use Avior\GameCore\Events\GameEvents\EndFeatureGameEvent;
 
 class StateWorker extends Worker
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\ITool;
 
 /**
  * Инструменты выполняют элементарные задачи,

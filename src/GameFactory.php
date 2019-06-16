@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Classes\GameCore;
+namespace Avior\GameCore;
 
-use App\Classes\GameCore\Base\IGameFactory;
-use App\Classes\GameCore\Base\IGame;
-use App\Classes\GameCore\GameDirector as BaseGameDirector;
-use App\Classes\Games\LifeOfLuxury2\GameDirector as Lol2GameDirector;
+use Avior\GameCore\Base\IGameFactory;
+use Avior\GameCore\Base\IGame;
+use Avior\GameCore\GameDirector as BaseGameDirector;
+use Avior\Games\LifeOfLuxury2\GameDirector as Lol2GameDirector;
 
 /**
  * Фабрика, которая по game_id выбирает классы для сборки игры и при помощи

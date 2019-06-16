@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IData;
+use Avior\GameCore\Base\IData;
 
 /**
  * Интерфейс класса который будет хранить набор данных с которыми работают воркеры

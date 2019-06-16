@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Workers;
+namespace Avior\GameCore\Workers;
 
-use App\Classes\GameCore\Base\IData;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IData;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
 
 /**
  * Класс работающий с сессией пользователя

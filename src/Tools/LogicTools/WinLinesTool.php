@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\LogicTools;
+namespace Avior\GameCore\Tools\LogicTools;
 
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\ITool;
 
 /**
  * Класс с методами для получения данных о выигрышных линиях

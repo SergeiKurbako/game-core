@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\StateTools;
+namespace Avior\GameCore\Tools\StateTools;
 
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\ITool;
 
 /**
  * Определение состояния

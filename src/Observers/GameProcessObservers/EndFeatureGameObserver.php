@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classes\GameCore\Observers\GameProcessObservers;
+namespace Avior\GameCore\Observers\GameProcessObservers;
 
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Observers\Observer;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Observers\Observer;
 
 class EndFeatureGameObserver extends Observer
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
-use App\Classes\GameCore\Base\IWorker;
+use Avior\GameCore\Base\IWorker;
 
 /**
  * Интерфейс класса который будет хранить набор воркеров

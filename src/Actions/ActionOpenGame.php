@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Classes\GameCore\Actions;
+namespace Avior\GameCore\Actions;
 
-use App\Classes\GameCore\Base\IWorkersPool;
-use App\Classes\GameCore\Base\IDataPool;
-use App\Classes\GameCore\Base\IToolsPool;
-use App\Classes\GameCore\Base\IRequestDataSets;
-use App\Classes\GameCore\Tools\RecoveryDataTool;
-use App\Classes\GameCore\Events\ActionEvents\StartActionOpenGameEvent;
-use App\Classes\GameCore\Events\ActionEvents\EndActionOpenGameEvent;
+use Avior\GameCore\Base\IWorkersPool;
+use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Tools\RecoveryDataTool;
+use Avior\GameCore\Events\ActionEvents\StartActionOpenGameEvent;
+use Avior\GameCore\Events\ActionEvents\EndActionOpenGameEvent;
 
 /**
  * Класс выполняет действие запуска игры на сервере

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Base;
+namespace Avior\GameCore\Base;
 
 use Illuminate\Http\Request;
-use App\Classes\GameCore\Base\IData;
+use Avior\GameCore\Base\IData;
 
 /**
  * Интерфейс для класса, который делает загрузку данных исходя из запроса

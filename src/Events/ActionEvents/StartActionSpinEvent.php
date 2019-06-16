@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\GameCore\Events\ActionEvents;
+namespace Avior\GameCore\Events\ActionEvents;
 
-use App\Classes\GameCore\Events\BaseEvent;
+use Avior\GameCore\Events\BaseEvent;
 
 class StartActionSpinEvent extends BaseEvent
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Classes\GameCore\Actions;
+namespace Avior\GameCore\Actions;
 
-use App\Classes\GameCore\Base\IAction;
-use App\Classes\GameCore\Base\ISubject;
-use App\Classes\GameCore\Base\IEvent;
-use App\Classes\GameCore\Base\IObserver;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IAction;
+use Avior\GameCore\Base\ISubject;
+use Avior\GameCore\Base\IEvent;
+use Avior\GameCore\Base\IObserver;
+use Avior\GameCore\Base\IDataPool;
 
 /**
  * Класс содержащий базовые методы и свойства для действия

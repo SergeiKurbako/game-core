@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Classes\GameCore\Actions;
+namespace Avior\GameCore\Actions;
 
-use App\Classes\GameCore\Base\IAction;
-use App\Classes\GameCore\Base\IActionsPool;
+use Avior\GameCore\Base\IAction;
+use Avior\GameCore\Base\IActionsPool;
 
 /**
  * Класс выполняет действие открытия игры

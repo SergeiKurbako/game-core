@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Classes\GameCore\Tools\DataTools;
+namespace Avior\GameCore\Tools\DataTools;
 
-use App\Classes\GameCore\Base\ITool;
+use Avior\GameCore\Base\ITool;
 use App\Models\V2Session;
 use Webpatser\Uuid\Uuid;
-use App\Classes\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IDataPool;
 
 /**
  * Помошник по работе с данными сессии
