@@ -11,7 +11,7 @@ use App\Classes\GameCore\Base\IRequestDataSets;
 /**
  * Класс выполняет действие запуска игры на сервере
  */
-class ActionSimulation implements IAction
+class ActionSimulation extends Action
 {
     public function __invoke(
         array $requestArray,

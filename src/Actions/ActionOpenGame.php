@@ -2,17 +2,18 @@
 
 namespace App\Classes\GameCore\Actions;
 
-use App\Classes\GameCore\Base\IAction;
 use App\Classes\GameCore\Base\IWorkersPool;
 use App\Classes\GameCore\Base\IDataPool;
 use App\Classes\GameCore\Base\IToolsPool;
 use App\Classes\GameCore\Base\IRequestDataSets;
 use App\Classes\GameCore\Tools\RecoveryDataTool;
+use App\Classes\GameCore\Events\ActionEvents\StartActionOpenGameEvent;
+use App\Classes\GameCore\Events\ActionEvents\EndActionOpenGameEvent;
 
 /**
  * Класс выполняет действие запуска игры на сервере
  */
-class ActionOpenGame implements IAction
+class ActionOpenGame extends Action
 {
     public function __invoke(
         array $requestArray,
@@ -24,6 +25,10 @@ class ActionOpenGame implements IAction
     {
         // загрузка данных из запроса
         $dataPool = $workersPool->requestWorker->loadRequestData($requestArray, $dataPool, $toolsPool, $requestDataSets);
+
+        // оповещение об начале выполнения действия
+        $dataPool = $this->notify(new StartActionOpenGameEvent($dataPool, $toolsPool));
+
         // проверка возможности выполнения запроса
         $workersPool->verifierWorker->verificationStartGameRequest($dataPool, $toolsPool);
         // загрузка сессии
@@ -43,8 +48,12 @@ class ActionOpenGame implements IAction
         // подготовка данных для фронта
         $response = $workersPool->responseWorker->makeResponse($dataPool, $toolsPool);
 
+        // оповещение об окончании выполнения действия
+        $dataPool = $this->notify(new EndActionOpenGameEvent($dataPool, $toolsPool));
+
         // Сохранение данных для последующего востановления
         $workersPool->recoveryWorker->saveRecoveryData($dataPool, $toolsPool);
+
 
         return $response;
     }

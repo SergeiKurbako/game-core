@@ -20,19 +20,19 @@ use App\Classes\GameCore\Workers\WorkersPool;
 class Game implements IGame
 {
     /** @var object содержащий объекты с данными */
-    protected $dataPool;
+    public $dataPool;
 
     /** @var object содержащий объекты классов работающих с данными игры */
-    protected $workersPool;
+    public $workersPool;
 
     /** @var object содержащий объекты классов работающих над волнением определенных действий */
-    protected $actionsPool;
+    public $actionsPool;
 
     /** @var object содержащий объекты инструменов */
-    protected $toolsPool;
+    public $toolsPool;
 
     /** @var object содержащий объекты описывающие данные необходимые для запросов */
-    protected $requestDataSets;
+    public $requestDataSets;
 
     /**
      * Добавление объекта с данными в игру
@@ -99,14 +99,12 @@ class Game implements IGame
     /**
      * Выполнение действия
      *
-     * @param int $gameId
-     * @param int $userId
-     * @param string $sessionUuid
-     * @param string $action
+     * @param  array  $requestArray параметры запроса
+     * @param  array  $table        массив с значениями ячеек для проведения теста
      *
-     * @return string строка в формате json
+     * @return string               [description]
      */
-    public function executeAction(array $requestArray): string
+    public function executeAction(array $requestArray, array $table = []): string
     {
         $requesAction = $requestArray['action'];
         $action = $this->actionsPool->$requesAction;
@@ -115,7 +113,8 @@ class Game implements IGame
             $this->workersPool,
             $this->dataPool,
             $this->toolsPool,
-            $this->requestDataSets
+            $this->requestDataSets,
+            $table
         );
 
         return $response;

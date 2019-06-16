@@ -22,8 +22,7 @@ class BalanceWorker extends Worker
         bool $simulation = false
     ): IDataPool
     {
-        if ($simulation === false) { // не делается симуляция или тест
-            // если запущен demo режим и делается открытие игры, то баланс начисляется по умолчанию
+        if ($simulation === false) { // не делается для симуляции или теста
             $dataPool->balanceData->balance = $toolsPool->dataTools->balanceDataTool->getUserBalance(
                 $dataPool->requestData->userId,
                 $dataPool->requestData->mode
@@ -77,6 +76,7 @@ class BalanceWorker extends Worker
         $dataPool->balanceData->totalPayoff = $totalPayoff;
         $dataPool->balanceData->payoffByLines = $payoffByLines;
         $dataPool->balanceData->payoffByBonus = $payoffByBonus;
+        $dataPool->balanceData->totalWinningsInFeatureGame = 0;
 
         // изменение баланса в БД
         if ($simulation === false) {
@@ -104,11 +104,11 @@ class BalanceWorker extends Worker
         if ($dataPool->stateData->screen === 'featureGame') {
             $isPossibilitySpin = true;
         } else {
-            dd('нет оставшихся фриспинов');
+            dd(__METHOD__, 'нет оставшихся фриспинов');
         }
 
         if ($isPossibilitySpin === false) {
-            dd('не достаточный баланс');
+            dd(__METHOD__, 'не достаточный баланс');
         }
 
         // подсчет кол-ва выигрыша по линиям

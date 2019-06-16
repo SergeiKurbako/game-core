@@ -15,7 +15,7 @@ class StateData implements IData
     /** @var bool общий результат хода */
     public $isWin = false;
 
-    /** @var bool выигрыш в основной игре */
+    /** @var bool выигрыш в основной игре (ход на котором выпадают фриспиных относится к mainGame) */
     public $isWinOnMain = false;
 
     /** @var bool выигрыш на бонусных символах */
@@ -30,8 +30,11 @@ class StateData implements IData
     /** @var bool выигрыш в игре на удвоение */
     public $isWinOnDouble = false;
 
-    /** @var bool на данном ходу выпала игра с фриспинами */
+    /** @var bool на данном ходу в mainGame выпала игра featureGame */
     public $isDropFeatureGame = false;
+
+    /** @var bool на данном ходу выпал последний бесплатный спин */
+    public $isEndFeatureGame = false;
 
     /** @var bool на данном ходу выпал джекпот */
     public $isDropJackpot = false;

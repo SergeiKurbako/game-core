@@ -7,6 +7,7 @@ use App\Classes\GameCore\Base\IData;
 use App\Classes\GameCore\Base\IDataPool;
 use App\Models\V2RecoveryData;
 use App\Models\V2Session;
+use App\Classes\GameCore\Data\BalanceData;
 
 /**
  * помошник для работы с запросом с фронта
@@ -55,6 +56,7 @@ class RecoveryDataTool implements ITool
 
     /**
      * Преобразование данных полученных из json к определенному типом данных
+     * Баласн не подвергается восстановлению и берется из БД
      *
      * @param IData $sessionData
      *
@@ -63,7 +65,14 @@ class RecoveryDataTool implements ITool
     public function recoveryData(IData $data, object $recoveryData): IData
     {
         foreach ($data as $key => $value) {
-            $data->$key = $recoveryData->$key;
+            // сохранение баланса полученного из БД
+            if ($data instanceof BalanceData) {
+                if ($key !== 'balance' ) {
+                    $data->$key = $recoveryData->$key;
+                }
+            } else {
+                $data->$key = $recoveryData->$key;
+            }
         }
 
         return $data;

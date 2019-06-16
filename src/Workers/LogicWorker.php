@@ -54,7 +54,9 @@ class LogicWorker extends Worker
      * @return IDataPool
      */
     public function getResultOfSpin(
-        IDataPool $dataPool, IToolsPool $toolsPool
+        IDataPool $dataPool,
+        IToolsPool $toolsPool,
+        array $table
     ): IDataPool
     {
         // изменение данных в logicData в соответствии с запросом
@@ -62,23 +64,26 @@ class LogicWorker extends Worker
             $dataPool->logicData,
             $dataPool->requestData
         );
-        $dataPool->logicData->lineBet = $dataPool->requestData->lineBet;
+        //$dataPool->logicData->lineBet = $dataPool->requestData->lineBet;
 
-        // получение процентов выпадения символов
-        $currentPercentages = $toolsPool->logicTools->tableTool
+        // получение рандомного занчения стола
+        if ($table === []) {
+            // получение процентов выпадения символов
+            $currentPercentages = $toolsPool->logicTools->tableTool
             ->getCurrentPercentages(
                 $dataPool->logicData->percentagesRules,
                 $dataPool->stateData->screen,
                 $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
             );
 
-        // получение рандомного занчения стола
-        $table = $toolsPool->logicTools->tableTool->getRandomTable(
-            $currentPercentages
-        );
+            $table = $toolsPool->logicTools->tableTool->getRandomTable(
+                $currentPercentages
+            );
+        }
 
-        //$table = [1,2,3,4,5,0,7,8,9,1,2,3,4,5,6]; // loose
+        //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
         //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win
+        //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // 60
         //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
         //$table = [2,5,7,8,7,6,1,5,6,1,8,7,6,8,9];
 
@@ -131,24 +136,43 @@ class LogicWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfFreeSpin(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
+    public function getResultOfFreeSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool,
+        array $table
+    ): IDataPool
     {
-        // получение процентов выпадения символов
-        $currentPercentages = $toolsPool->logicTools->tableTool
+        // // получение процентов выпадения символов
+        // $currentPercentages = $toolsPool->logicTools->tableTool
+        //     ->getCurrentPercentages(
+        //         $dataPool->logicData->percentagesRules,
+        //         $dataPool->stateData->screen,
+        //         $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
+        //     );
+        //
+        // // получение рандомного занчения стола
+        // $table = $toolsPool->logicTools->tableTool->getRandomTable(
+        //     $currentPercentages
+        // );
+
+        // получение рандомного занчения стола
+        if ($table === []) {
+            // получение процентов выпадения символов
+            $currentPercentages = $toolsPool->logicTools->tableTool
             ->getCurrentPercentages(
                 $dataPool->logicData->percentagesRules,
                 $dataPool->stateData->screen,
                 $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
             );
 
-        // получение рандомного занчения стола
-        $table = $toolsPool->logicTools->tableTool->getRandomTable(
-            $currentPercentages
-        );
+            $table = $toolsPool->logicTools->tableTool->getRandomTable(
+                $currentPercentages
+            );
+        }
 
         //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
-        //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win
-        //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // win
+        //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win 20
+        //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // win 20
         //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
 
         // получение выигрышных линий

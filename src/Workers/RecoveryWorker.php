@@ -36,7 +36,7 @@ class RecoveryWorker extends Worker
                 ->recoveryData($dataPool->sessionData, $prevDataPool->sessionData);
 
             $dataPool->balanceData = $toolsPool->dataTools->recoveryDataTool
-                ->recoveryData($dataPool->balanceData, $prevDataPool->balanceData);
+               ->recoveryData($dataPool->balanceData, $prevDataPool->balanceData);
 
             $dataPool->logicData = $toolsPool->dataTools->recoveryDataTool
                 ->recoveryData($dataPool->logicData, $prevDataPool->logicData);

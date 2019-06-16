@@ -193,21 +193,6 @@ class StateCalculatorTool implements ITool
     }
 
     /**
-     * Вычисление номера хода в featureGame
-     *
-     * @param int $moveNumberInFeatureGame
-     * @param bool $isDropFeatureGame
-     *
-     * @return int
-     */
-    public function calculateMoveNumberInFeatureGame(
-        int $moveNumberInFeatureGame
-    ): int
-    {
-        return $moveNumberInFeatureGame + 1;
-    }
-
-    /**
      * Изменение текущего номера хода с учетом выпадения новой featureGame
      *
      * @param int $moveNumberInFeatureGame
@@ -221,43 +206,6 @@ class StateCalculatorTool implements ITool
     ): int
     {
         return $moveNumberInFeatureGame;
-    }
-
-    /**
-     * Изменение множителя в зависимости от выпадения каких либо символов
-     *
-     * @param int $multiplier
-     * @param array $table
-     *
-     * @return int
-     */
-    public function calculateMultiplier(
-        int $multiplier,
-        array $table
-    ): int
-    {
-        return $multiplier;
-    }
-
-    /**
-     * Изменение текущего номера хода с учетом выпадения новой featureGame
-     *
-     * @param int $moveNumberInFeatureGame
-     * @param bool $isDropFeatureGame
-     *
-     * @return int
-     */
-    public function updateCountOfMovesInFeatureGame(
-        int $countOfMovesInFeatureGame,
-        bool $isDropFeatureGame
-    ): int
-    {
-        // уменьшение кол-ва сделанных ходов
-        if ($isDropFeatureGame) {
-            $countOfMovesInFeatureGame += 12;
-        }
-
-        return $countOfMovesInFeatureGame;
     }
 
     /**
@@ -385,36 +333,25 @@ class StateCalculatorTool implements ITool
     }
 
     /**
-     * Изменение эрана на featureGame
+     * Проверка выпадения последнего бесплатного спина в featureGame
      *
-     * @return string
-     */
-    public function updateScreenIfDropFeatureGame(): string
-    {
-        $screen = 'featureGame';
-
-        return $screen;
-    }
-
-    /**
-     * Обнуление общего выигрыша в фриспинах если они закончились
-     *
-     * @param int $totalWinningsInFeatureGame
      * @param int $moveNumberInFeatureGame
      * @param int $countOfMovesInFeatureGame
      *
-     * @return string
+     * @return bool
      */
-    public function nullableTotalWinningsFGIfEndFeatureGame(
-        int $totalWinningsInFeatureGame,
+    public function checkEndFeatureGame(
         int $moveNumberInFeatureGame,
         int $countOfMovesInFeatureGame
-    ): string
+    ): bool
     {
+        $isEndFeatureGame = false;
+
         if ($moveNumberInFeatureGame === $countOfMovesInFeatureGame) {
-            $totalWinningsInFeatureGame = 0;
+            $isEndFeatureGame = true;
         }
 
-        return $totalWinningsInFeatureGame;
+        return $isEndFeatureGame;
     }
+
 }

@@ -9,9 +9,6 @@ use App\Classes\GameCore\Base\IData;
  */
 class LogicData implements IData
 {
-//    /** @var string запрашиваемое действие */
-//    public $action = '';
-
     /** @var int ставка */
     public $lineBet = 1;
 
@@ -75,14 +72,18 @@ class LogicData implements IData
     /** @var array выигрышные ячейки [cellNumber => symbol, ...] */
     public $winningCells = [];
 
-    /** @var int максимально кол-во ходов в featureGame которое доступно для пользователя
-     на данный момент */
+    /** @var int максимально кол-во ходов в featureGame которое доступно для пользователя на данный момент */
     public $countOfMovesInFeatureGame = 10;
 
-    /** @var int максимально кол-во ходов в featureGame которое доступно для пользователя
-     со старта */
+    /** @var int максимально кол-во ходов в featureGame которое доступно для пользователя со старта */
     public $startCountOfFreeSpinsInFeatureGame = 10;
 
     /** @var int текущий множитель */
     public $multiplier = 1;
+
+    /** @var int стартовый множитель в основной игре */
+    public $startMultiplierInMainGame = 1;
+
+    /** @var int стартовый множитель в featureGame */
+    public $startMultiplierInFeatureGame = 2;
 }

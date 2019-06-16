@@ -5,6 +5,8 @@ namespace App\Classes\GameCore\Workers;
 use App\Classes\GameCore\Workers\Worker;
 use App\Classes\GameCore\Base\IToolsPool;
 use App\Classes\GameCore\Base\IDataPool;
+use App\Classes\GameCore\Events\GameEvents\StartFeatureGameEvent;
+use App\Classes\GameCore\Events\GameEvents\EndFeatureGameEvent;
 
 class StateWorker extends Worker
 {
@@ -67,24 +69,9 @@ class StateWorker extends Worker
                 $dataPool->logicData->featureGameRules
             );
 
+        // изменение экрана
         if ($dataPool->stateData->isDropFeatureGame) {
-            // Обнуление кол-ва возможных бесплатных спинов
-            $dataPool->stateData->totalSpinCountOnFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-                ->resetTotalSpinCountOnFeatureGame(
-                    $dataPool->logicData->startCountOfFreeSpinsInFeatureGame
-                );
-
-            // изменение текущего номера хода в featureGame
-            $dataPool->stateData->moveNumberInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-                ->resetMoveNumberInFeatureGame();
-
-            // изменение множителя
-            $dataPool->logicData->multiplier = $toolsPool->stateTools->stateCalculatorTool
-                ->resetMultiplier();
-
-            // изменение текущего экрана
-            $dataPool->stateData->screen = $toolsPool->stateTools->stateCalculatorTool
-                ->updateScreenIfDropFeatureGame();
+            $dataPool->stateData->screen = 'featureGame';
         }
 
         // выпадение джекпота
@@ -92,6 +79,12 @@ class StateWorker extends Worker
             ->calculateIsDropJackpot(
                 $dataPool->logicData->jackpotRules
             );
+
+        // окончание фриспинов
+        $dataPool->stateData->isEndFeatureGame = false;
+
+        // отправка уведомлений о событиях
+        $dataPool = $this->sendNotifies($dataPool, $toolsPool);
 
         return $dataPool;
     }
@@ -108,7 +101,8 @@ class StateWorker extends Worker
     {
         // перенаправление запроса в случае если это не фриспин
         if ($dataPool->stateData->screen === 'mainGame') {
-            return $this->getResultOfSpin($dataPool, $toolsPool);
+            dd(__METHOD__, 'нет фриспинов');
+            //return $this->getResultOfSpin($dataPool, $toolsPool);
         }
 
         // выигрышь на чем либо
@@ -130,7 +124,7 @@ class StateWorker extends Worker
                 $dataPool->logicData->payoffsForBonus
             );
 
-        // выигрыш на бонусных символах
+        // выигрышь на бонусных символах
         $dataPool->stateData->isWinOnBonus = $toolsPool->stateTools->stateCalculatorTool
             ->calculateIsWinOnBonus(
                 $dataPool->logicData->payoffsForBonus
@@ -145,62 +139,32 @@ class StateWorker extends Worker
             );
 
         // изменение текущего номера хода в featureGame
-        $dataPool->stateData->moveNumberInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-            ->calculateMoveNumberInFeatureGame(
-                $dataPool->stateData->moveNumberInFeatureGame
-            );
+        $dataPool->stateData->moveNumberInFeatureGame += 1;
 
-        // изменение кол-ва возможных ходов с учетом выпадения новой featureGame
-        $dataPool->logicData->countOfMovesInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-            ->updateCountOfMovesInFeatureGame(
-                $dataPool->logicData->countOfMovesInFeatureGame,
-                $dataPool->stateData->isDropFeatureGame
-            );
-
-        // изменение множителя в случает выпадения алмаза
-        $dataPool->logicData->multiplier = $toolsPool->stateTools->stateCalculatorTool
-            ->calculateMultiplier(
-                $dataPool->logicData->multiplier,
-                $dataPool->logicData->table
-            );
-
-        // обнуление множителя в случае окончания featureGame
-        $dataPool->logicData->multiplier = $toolsPool->stateTools->stateCalculatorTool
-            ->nullableMultiplierIfEndFeatureGame(
-                $dataPool->logicData->multiplier,
+        // окончание featureGame (последний бесплатный спин)
+        $dataPool->stateData->isEndFeatureGame = $toolsPool->stateTools->stateCalculatorTool
+            ->checkEndFeatureGame(
                 $dataPool->stateData->moveNumberInFeatureGame,
                 $dataPool->logicData->countOfMovesInFeatureGame
             );
 
-        // обнуление экрана если бесплатные спины закончились
-        $dataPool->stateData->screen = $toolsPool->stateTools->stateCalculatorTool
-            ->nullableScreenIfEndFeatureGame(
-                $dataPool->stateData->screen,
-                $dataPool->stateData->moveNumberInFeatureGame,
-                $dataPool->logicData->countOfMovesInFeatureGame
-            );
+        // отправка уведомлений о событиях
+        $dataPool = $this->sendNotifies($dataPool, $toolsPool);
 
-        // обнуление кол-ва возможных бесплатных спинов если они закончились
-        $dataPool->logicData->countOfMovesInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-            ->nullableCountOfMovesIfEndFeatureGame(
-                $dataPool->stateData->moveNumberInFeatureGame,
-                $dataPool->logicData->countOfMovesInFeatureGame
-            );
+        return $dataPool;
+    }
 
-        // обнуление кол-ва сделанных бесплатных спинов если они закончились
-        $dataPool->stateData->moveNumberInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-            ->nullableMoveNumbersIfEndFeatureGame(
-                $dataPool->stateData->moveNumberInFeatureGame,
-                $dataPool->logicData->countOfMovesInFeatureGame
-            );
+    public function sendNotifies(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
+    {
+        // оповещение о выпадении featureGame
+        if ($dataPool->stateData->isDropFeatureGame) {
+            $dataPool = $this->notify(new StartFeatureGameEvent($dataPool, $toolsPool));
+        }
 
-        // обнуление общего выигрыша в фриспинах если они закончились
-        $dataPool->balanceData->totalWinningsInFeatureGame = $toolsPool->stateTools->stateCalculatorTool
-            ->nullableTotalWinningsFGIfEndFeatureGame(
-                $dataPool->balanceData->totalWinningsInFeatureGame,
-                $dataPool->stateData->moveNumberInFeatureGame,
-                $dataPool->logicData->countOfMovesInFeatureGame
-            );
+        // оповещение об окончании featureGame
+        if ($dataPool->stateData->isEndFeatureGame) {
+            $dataPool = $this->notify(new EndFeatureGameEvent($dataPool, $toolsPool));
+        }
 
         return $dataPool;
     }

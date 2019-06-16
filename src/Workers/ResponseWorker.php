@@ -56,6 +56,8 @@ class ResponseWorker extends Worker
         unset($logicData->payoffsForJackpot);
         //unset($logicData->countOfMovesInFeatureGame);
         unset($logicData->startCountOfFreeSpinsInFeatureGame);
+        unset($logicData->startMultiplierInMainGame);
+        unset($logicData->startMultiplierInFeatureGame);
         $responseData->addData('logicData', $logicData);
 
         return \json_encode($responseData);
