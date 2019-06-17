@@ -58,9 +58,10 @@ class RecoveryDataTool implements ITool
      * Преобразование данных полученных из json к определенному типом данных
      * Баласн не подвергается восстановлению и берется из БД
      *
-     * @param IData $sessionData
+     * @param  IData  $data         [description]
+     * @param  object $recoveryData [description]
      *
-     * @return IData
+     * @return IData                [description]
      */
     public function recoveryData(IData $data, object $recoveryData): IData
     {

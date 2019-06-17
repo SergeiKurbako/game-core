@@ -46,6 +46,9 @@ class RecoveryWorker extends Worker
 
             $dataPool->statisticsData = $toolsPool->dataTools->recoveryDataTool
                 ->recoveryData($dataPool->statisticsData, $prevDataPool->statisticsData);
+
+            $dataPool->longData = $toolsPool->dataTools->recoveryDataTool
+                ->recoveryData($dataPool->longData, $prevDataPool->longData);
         }
 
         return $dataPool;

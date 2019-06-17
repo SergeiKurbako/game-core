@@ -12,6 +12,9 @@ class StateData implements IData
     /** @var string на каком экране находится игрок (mainGame, featureGame, jackpot, doubleGame ...) */
     public $screen = '';
 
+    /** @var string на каком экране находился игрок в предыдущем действии (mainGame, featureGame, jackpot, doubleGame ...) */
+    //public $prevScreen = '';
+
     /** @var bool общий результат хода */
     public $isWin = false;
 

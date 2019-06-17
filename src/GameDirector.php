@@ -34,6 +34,7 @@ class GameDirector implements IGameDirector
         $this->dataPool->addData('logicData', new \Avior\GameCore\Data\LogicData);
         $this->dataPool->addData('requestData', new \Avior\GameCore\Data\RequestData);
         $this->dataPool->addData('statisticsData', new \Avior\GameCore\Data\StatisticsData);
+        $this->dataPool->addData('longData', new \Avior\GameCore\Data\LongData);
 
         // сбор набора данных, который будет обрабатываться при соответсвующих запросах
         $this->requestDataSetPool = new \Avior\GameCore\RequestDataSets\RequestDataSets;

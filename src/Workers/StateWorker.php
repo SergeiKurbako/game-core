@@ -74,6 +74,9 @@ class StateWorker extends Worker
             $dataPool->stateData->screen = 'featureGame';
         }
 
+        // изменение предыдущего экрана
+        $dataPool->stateData->prevScreen = 'mainGame';
+
         // выпадение джекпота
         $dataPool->stateData->isDropJackpot = $toolsPool->stateTools->stateCalculatorTool
             ->calculateIsDropJackpot(
@@ -104,6 +107,9 @@ class StateWorker extends Worker
             dd(__METHOD__, 'нет фриспинов');
             //return $this->getResultOfSpin($dataPool, $toolsPool);
         }
+
+        // изменение предыдущего экрана
+        $dataPool->stateData->prevScreen = 'featureGame';
 
         // выигрышь на чем либо
         $dataPool->stateData->isWin = $toolsPool->stateTools->stateCalculatorTool

@@ -41,7 +41,6 @@ class ActionSpin extends Action
 
         // оповещение об начале выполнения действия
         $dataPool = $this->notify(new StartActionSpinEvent($dataPool, $toolsPool));
-
         // загрузка баланса
         $dataPool = $workersPool->balanceWorker->loadBalanceData($dataPool, $toolsPool);
 
