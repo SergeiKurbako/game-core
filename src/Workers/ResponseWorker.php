@@ -26,21 +26,15 @@ class ResponseWorker extends Worker
         unset($stateData->isWinOnJackpot);
         unset($stateData->isWinOnDouble);
         unset($stateData->isDropJackpot);
-        //$responseData->addData('stateData', $stateData);
         $responseData->stateData = $stateData;
 
         // создание объекта для ответа с данными balanceData
         $balanceData = clone $dataPool->balanceData;
         unset($balanceData->payoffByJackpot);
         unset($balanceData->payoffByDouble);
-        //$responseData->addData('balanceData', $balanceData);
         $responseData->balanceData = $balanceData;
 
-        // создание объекта для ответа с данными statisticsData
-        //$responseData->addData('statisticsData', $dataPool->statisticsData);
-
         // создание объекта для ответа с данными sessionData
-        //$responseData->addData('sessionData', $dataPool->sessionData);
         $responseData->sessionData = $dataPool->sessionData;
 
         // создание объекта для ответа с данными логики
@@ -57,47 +51,10 @@ class ResponseWorker extends Worker
         unset($logicData->percentagesRules);
         unset($logicData->payoffsForDouble);
         unset($logicData->payoffsForJackpot);
-        //unset($logicData->countOfMovesInFeatureGame);
         unset($logicData->startCountOfFreeSpinsInFeatureGame);
         unset($logicData->startMultiplierInMainGame);
         unset($logicData->startMultiplierInFeatureGame);
         $responseData->logicData = $logicData;
-
-        // создание объекта для ответа с данными longData
-        if ($dataPool->stateData->isEndFeatureGame) {
-            $longData = new \stdClass;
-
-            $longData->stateData = new \stdClass;
-            $longData->stateData = $dataPool->longData->data->stateData;
-            unset($longData->stateData->isWinOnJackpot);
-            unset($longData->stateData->isWinOnDouble);
-            unset($longData->stateData->isDropJackpot);
-
-            $longData->balanceData = new \stdClass;
-            $longData->balanceData = $dataPool->longData->data->balanceData;
-            unset($longData->balanceData->payoffByJackpot);
-            unset($longData->balanceData->payoffByDouble);
-
-            $longData->logicData = new \stdClass;
-            $longData->logicData = $dataPool->longData->data->logicData;
-            unset($longData->logicData->maxLineBet);
-            unset($longData->logicData->maxLinesInGame);
-            unset($longData->logicData->minLineBet);
-            unset($longData->logicData->minLinesInGame);
-            unset($longData->logicData->linesRules);
-            unset($longData->logicData->featureGameRules);
-            unset($longData->logicData->bonusRules);
-            unset($longData->logicData->combinationsRules);
-            unset($longData->logicData->jackpotRules);
-            unset($longData->logicData->percentagesRules);
-            unset($longData->logicData->payoffsForDouble);
-            unset($longData->logicData->payoffsForJackpot);
-            unset($longData->logicData->startCountOfFreeSpinsInFeatureGame);
-            unset($longData->logicData->startMultiplierInMainGame);
-            unset($longData->logicData->startMultiplierInFeatureGame);
-
-            $responseData->longData = $longData;
-        }
 
         return \json_encode($responseData);
     }
