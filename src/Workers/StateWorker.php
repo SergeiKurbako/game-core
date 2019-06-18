@@ -18,8 +18,10 @@ class StateWorker extends Worker
      *
      * @return IDataPool
      */
-    public function loadStateData(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function loadStateData(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         $dataPool->stateData->screen = 'mainGame';
 
         return $dataPool;
@@ -33,8 +35,10 @@ class StateWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfSpin(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function getResultOfSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // выигрышь на чем либо
         $dataPool->stateData->isWin = $toolsPool->stateTools->stateCalculatorTool
             ->calculateIsWin(
@@ -100,8 +104,10 @@ class StateWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfFreeSpin(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function getResultOfFreeSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // перенаправление запроса в случае если это не фриспин
         if ($dataPool->stateData->screen === 'mainGame') {
             dd(__METHOD__, 'нет фриспинов');
@@ -160,8 +166,10 @@ class StateWorker extends Worker
         return $dataPool;
     }
 
-    public function sendNotifies(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function sendNotifies(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // оповещение о выпадении featureGame
         if ($dataPool->stateData->isDropFeatureGame) {
             $dataPool = $this->notify(new StartFeatureGameEvent($dataPool, $toolsPool));

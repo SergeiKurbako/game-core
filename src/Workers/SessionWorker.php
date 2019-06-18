@@ -19,8 +19,10 @@ class SessionWorker extends Worker
      *
      * @return IDataPool
      */
-    public function loadSessionData(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function loadSessionData(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // проверка наличия работающей сессии у пользователя
         $isWorkingSession = $toolsPool->dataTools->sessionDataTool->checkWorkingSession(
             $dataPool->requestData->userId,
@@ -68,8 +70,10 @@ class SessionWorker extends Worker
      *
      * @return IDataPool             [description]
      */
-    public function closeSession(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function closeSession(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         $toolsPool->dataTools->sessionDataTool->closeSession(
             $dataPool->requestData->sessionUuid,
             $dataPool->requestData->mode

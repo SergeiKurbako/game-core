@@ -12,10 +12,13 @@ use App\Models\V2Statistic;
  */
 class StatisticsWorker extends Worker
 {
-    public function loadStatisticsData(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function loadStatisticsData(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // загруказ данных статистики
-        $dataPool->statisticsData = $toolsPool
+        if ($dataPool->systemData->isSimulation === false) {
+            $dataPool->statisticsData = $toolsPool
             ->dataTools
             ->statisticsDataTool
             ->getUserStatistics(
@@ -24,6 +27,7 @@ class StatisticsWorker extends Worker
                 $dataPool->sessionData->gameId,
                 $dataPool->sessionData->mode
             );
+        }
 
         return $dataPool;
     }
@@ -36,60 +40,56 @@ class StatisticsWorker extends Worker
      *
      * @return void
      */
-    public function getResultOfSpin(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
-    {
+    public function getResultOfSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // вычисление общего выигрыша
-        $dataPool->statisticsData->totalWinnings = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->winnings = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalWinnings(
-                $dataPool->statisticsData->totalWinnings,
+                $dataPool->statisticsData->winnings,
                 $dataPool->balanceData->totalPayoff
             );
 
         // вычисление общего выигрыша в основной игре
-        $dataPool->statisticsData->totalWinningsOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->winningsOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalWinningsOnMainGame(
-                $dataPool->statisticsData->totalWinningsOnMainGame,
+                $dataPool->statisticsData->winningsOnMainGame,
                 $dataPool->logicData->payoffsForLines,
                 $dataPool->logicData->payoffsForBonus
             );
 
         // вычисление общего проигрыша
-        $dataPool->statisticsData->totalLoss = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->loss = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalLoss(
-                $dataPool->statisticsData->totalLoss,
+                $dataPool->statisticsData->loss,
                 $dataPool->logicData->lineBet,
                 $dataPool->logicData->linesInGame
             );
 
         // вычисление общего проигрыша в основной игре
-        $dataPool->statisticsData->totalLossOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->lossOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalLossOnMainGame(
-                $dataPool->statisticsData->totalLossOnMainGame,
+                $dataPool->statisticsData->lossOnMainGame,
                 $dataPool->logicData->lineBet,
                 $dataPool->logicData->linesInGame
             );
 
         // вычисление общего кол-ва кручений
-        $dataPool->statisticsData->totalSpinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->spinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalSpinCount(
-                $dataPool->statisticsData->totalSpinCount
+                $dataPool->statisticsData->spinCount
             );
 
         // вычисление общего кол-ва кручений в основной игре
-        $dataPool->statisticsData->totalSpinCountOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->spinCountInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateSpinCountOnMainGame(
-                $dataPool->statisticsData->totalSpinCountOnMainGame,
+                $dataPool->statisticsData->spinCountInMainGame,
                 $dataPool->stateData->screen
             );
 
-        // вычисление общего кол-ва джекпотов
-        $dataPool->statisticsData->totalJackpots = $toolsPool->statisticsTools->statisticsCalculatorTool
-            ->calculateJackpots(
-                $dataPool->statisticsData->totalJackpots
-            );
-
         // сохранение данных статистики
-        if ($simulation === false) {
+        if ($dataPool->systemData->isSimulation === false) {
             $statistics = $toolsPool
                 ->dataTools
                 ->statisticsDataTool
@@ -112,37 +112,39 @@ class StatisticsWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfFreeSpin(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
-    {
+    public function getResultOfFreeSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // вычисление общего выигрыша
-        $dataPool->statisticsData->totalWinnings = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->winnings = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalWinnings(
-                $dataPool->statisticsData->totalWinnings,
+                $dataPool->statisticsData->winnings,
                 $dataPool->balanceData->totalPayoff
             );
 
         // вычисление общего выигрыша за все featureGame
-        $dataPool->statisticsData->totalWinningsOnFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->winningsOnFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalWinnings(
-                $dataPool->statisticsData->totalWinningsOnFeatureGame,
+                $dataPool->statisticsData->winningsOnFeatureGame,
                 $dataPool->balanceData->totalPayoff
             );
 
         // вычисление общего кол-ва кручений
-        $dataPool->statisticsData->totalSpinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->spinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateTotalSpinCount(
-                $dataPool->statisticsData->totalSpinCount
+                $dataPool->statisticsData->spinCount
             );
 
         // вычисление общего кол-ва кручений в featureGame
-        $dataPool->statisticsData->totalSpinCountOnFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+        $dataPool->statisticsData->spinCountInFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateSpinCountOnFeatureGame(
-                $dataPool->statisticsData->totalSpinCountOnFeatureGame,
+                $dataPool->statisticsData->spinCountInFeatureGame,
                 $dataPool->stateData->screen
             );
 
         // сохранение данных статистики
-        if ($simulation === false) {
+        if ($dataPool->systemData->isSimulation === false) {
             $statistics = $toolsPool
                 ->dataTools
                 ->statisticsDataTool

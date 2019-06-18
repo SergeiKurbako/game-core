@@ -16,8 +16,10 @@ class RecoveryWorker extends Worker
      *
      * @return IDataPool
      */
-    public function recoveryData(IDataPool $dataPool, IToolsPool $toolsPool): IDataPool
-    {
+    public function recoveryData(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // получение sessionUuid
         if ($dataPool->requestData->sessionUuid === '') {
             $sessionUuid = $dataPool->sessionData->sessionUuid;
@@ -56,6 +58,7 @@ class RecoveryWorker extends Worker
 
     /**
      * Сохранение данных для последующего востановления
+     * (Системные данные не сохраняются)
      *
      * @param IDataPool $dataPool
      * @param IToolsPool $toolsPool

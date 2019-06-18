@@ -35,6 +35,7 @@ class GameDirector implements IGameDirector
         $this->dataPool->addData('requestData', new \Avior\GameCore\Data\RequestData);
         $this->dataPool->addData('statisticsData', new \Avior\GameCore\Data\StatisticsData);
         $this->dataPool->addData('longData', new \Avior\GameCore\Data\LongData);
+        $this->dataPool->addData('systemData', new \Avior\GameCore\Data\SystemData);
 
         // сбор набора данных, который будет обрабатываться при соответсвующих запросах
         $this->requestDataSetPool = new \Avior\GameCore\RequestDataSets\RequestDataSets;
@@ -44,7 +45,7 @@ class GameDirector implements IGameDirector
         $this->requestDataSetPool->addRequestData('free_spin', new \Avior\GameCore\RequestDataSets\FreeSpinRequestData);
         $this->requestDataSetPool->addRequestData('simulation', new \Avior\GameCore\RequestDataSets\SimulationRequestData);
 
-        // сбор рабочих
+        // сбор воркеров
         $this->workersPool = new \Avior\GameCore\Workers\WorkersPool;
         $this->workersPool->addWorker('sessionWorker', new \Avior\GameCore\Workers\SessionWorker);
         $this->workersPool->addWorker('stateWorker', new \Avior\GameCore\Workers\StateWorker);
@@ -55,6 +56,11 @@ class GameDirector implements IGameDirector
         $this->workersPool->addWorker('recoveryWorker', new \Avior\GameCore\Workers\RecoveryWorker);
         $this->workersPool->addWorker('statisticsWorker', new \Avior\GameCore\Workers\StatisticsWorker);
         $this->workersPool->addWorker('verifierWorker', new \Avior\GameCore\Workers\VerifierWorker);
+
+        // добавление инструкций для воркеров
+        $instructionsPoolForLogicWorker = new \Avior\GameCore\WorkersInstructions\WorkerInstructionsPool;
+        $instructionsPoolForLogicWorker->addWorkerInstruction('spin', new \Avior\GameCore\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction());
+        $this->workersPool->logicWorker->addInstructionsPool($instructionsPoolForLogicWorker);
 
         // сбор инструменов
         $this->toolsPool = new \Avior\GameCore\Tools\ToolsPool;

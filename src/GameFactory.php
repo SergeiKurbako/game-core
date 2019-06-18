@@ -5,7 +5,6 @@ namespace Avior\GameCore;
 use Avior\GameCore\Base\IGameFactory;
 use Avior\GameCore\Base\IGame;
 use Avior\GameCore\GameDirector as BaseGameDirector;
-use Avior\Games\LifeOfLuxury2\GameDirector as Lol2GameDirector;
 
 /**
  * Фабрика, которая по game_id выбирает классы для сборки игры и при помощи

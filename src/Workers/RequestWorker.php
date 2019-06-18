@@ -26,8 +26,7 @@ class RequestWorker extends Worker
         IDataPool $dataPool,
         IToolsPool $toolsPool,
         IRequestDataSets $requestDataSets
-    ): IDataPool
-    {
+    ): IDataPool {
         // загрузка данных получаемых в запросе
         $requestDataSetName = $requestArray['action'];
         $dataPool->requestData = $toolsPool->dataTools->requestDataTool->loadData(

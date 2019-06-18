@@ -100,21 +100,25 @@ class Game implements IGame
      * Выполнение действия
      *
      * @param  array  $requestArray параметры запроса
-     * @param  array  $table        массив с значениями ячеек для проведения теста
+     * @param  array  $tablePreset        массив с значениями ячеек для проведения теста
      *
      * @return string               [description]
      */
-    public function executeAction(array $requestArray, array $table = []): string
+    public function executeAction(array $requestArray, array $tablePreset = []): string
     {
+        // запись предустановленного стола в systemData
+        $this->dataPool->systemData->tablePreset = $tablePreset;
+
+        // получение объекта действия
         $requesAction = $requestArray['action'];
         $action = $this->actionsPool->$requesAction;
+
         $response = $action(
             $requestArray,
             $this->workersPool,
             $this->dataPool,
             $this->toolsPool,
-            $this->requestDataSets,
-            $table
+            $this->requestDataSets
         );
 
         return $response;

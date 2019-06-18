@@ -15,8 +15,10 @@ class VerifierWorker extends Worker
      * @param array $requestArray
      * @param IToolsPool $toolsPool
      */
-    public function verificationStartGameRequest(IDataPool $requestArray, IToolsPool $toolsPool)
-    {
+    public function verificationStartGameRequest(
+        IDataPool $requestArray,
+        IToolsPool $toolsPool
+    ) {
         return true;
     }
 
@@ -28,8 +30,10 @@ class VerifierWorker extends Worker
      *
      * @return bool
      */
-    public function verificationSpinRequest(IDataPool $dataPool, IToolsPool $toolsPool): bool
-    {
+    public function verificationSpinRequest(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): bool {
         try {
             if ($dataPool->requestData->linesInGame > $dataPool->logicData->maxLinesInGame) {
                 throw new IncorrectRequestExeption('linesInGame > ' . $dataPool->logicData->maxLinesInGame);
@@ -38,7 +42,6 @@ class VerifierWorker extends Worker
             if ($dataPool->requestData->lineBet > $dataPool->logicData->maxLineBet) {
                 throw new IncorrectRequestExeption('lineBet > ' . $dataPool->logicData->maxLineBet);
             }
-
         } catch (IncorrectRequestExeption $e) {
             die(json_encode(["status" => "false", "message" => $e->getMessage()]));
         }
@@ -52,8 +55,10 @@ class VerifierWorker extends Worker
      * @param array $requestArray
      * @param IToolsPool $toolsPool
      */
-    public function verificationFreeSpinRequest(IDataPool $dataPool, IToolsPool $toolsPool)
-    {
+    public function verificationFreeSpinRequest(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ) {
         try {
             if ($dataPool->requestData->linesInGame > $dataPool->logicData->maxLinesInGame) {
                 throw new IncorrectRequestExeption('linesInGame > ' . $dataPool->logicData->maxLinesInGame);
@@ -62,7 +67,6 @@ class VerifierWorker extends Worker
             if ($dataPool->requestData->lineBet > $dataPool->logicData->maxLineBet) {
                 throw new IncorrectRequestExeption('lineBet > ' . $dataPool->logicData->maxLineBet);
             }
-
         } catch (IncorrectRequestExeption $e) {
             die(json_encode(["status" => "false", "message" => $e->getMessage()]));
         }

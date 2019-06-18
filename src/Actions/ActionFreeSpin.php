@@ -23,7 +23,6 @@ class ActionFreeSpin extends Action
      * @param  IDataPool        $dataPool        [description]
      * @param  IToolsPool       $toolsPool       [description]
      * @param  IRequestDataSets $requestDataSets [description]
-     * @param  array            $table           массив с значениями ячеек для проведения теста
      *
      * @return string                            json
      */
@@ -32,8 +31,7 @@ class ActionFreeSpin extends Action
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
-        IRequestDataSets $requestDataSets,
-        array $table = []
+        IRequestDataSets $requestDataSets
     ): string
     {
         // загрузка данных из запроса
@@ -51,7 +49,7 @@ class ActionFreeSpin extends Action
         // проверка возможности выполнения запроса
         $workersPool->verifierWorker->verificationFreeSpinRequest($dataPool, $toolsPool);
         // вычисление результатов хода
-        $dataPool = $workersPool->logicWorker->getResultOfFreeSpin($dataPool, $toolsPool, $table);
+        $dataPool = $workersPool->logicWorker->getResultOfFreeSpin($dataPool, $toolsPool);
         // обновление данных связанных с деньгами
         $dataPool = $workersPool->balanceWorker->getResultOfFreeSpin($dataPool, $toolsPool);
         // получение итогового стостояния
