@@ -1,38 +1,16 @@
 <?php
 
-namespace Avior\GameCore\WorkersInstructions\LogicWorkerInstructions;
+namespace Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions;
 
-use Avior\GameCore\Base\IWorkerInstruction;
+use Avior\GameCore\Base\IInstruction;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
 
 /**
- * Класс содержащий набор методов, которые выполняется в цикле
+ * Класс содержащий набор методов, которые последовательно выполняется в воркером
  */
-class LogicWorkerSpinInstruction implements IWorkerInstruction
+class LogicWorkerFreeSpinInstruction implements IInstruction
 {
-    /**
-     * изменение данных в logicData в соответствии с запросом
-     *
-     * @param  IDataPool  $dataPool
-     * @param  IToolsPool $toolsPool
-     *
-     * @return IDataPool
-     */
-    public function loadDataFromRequest(
-        IDataPool $dataPool,
-        IToolsPool $toolsPool
-    ): IDataPool {
-        $dataPool->logicData = $toolsPool->dataTools->logicDataTool->loadDataFromRequest(
-            $dataPool->logicData,
-            $dataPool->requestData
-        );
-
-        $dataPool->logicData->lineBet = $dataPool->requestData->lineBet;
-
-        return $dataPool;
-    }
-
     /**
      * получение рандомного занчения стола
      *
@@ -97,12 +75,13 @@ class LogicWorkerSpinInstruction implements IWorkerInstruction
         IDataPool $dataPool,
         IToolsPool $toolsPool
     ): IDataPool {
-        $dataPool->logicData->payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
+        $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
             $dataPool->requestData->lineBet,
             $dataPool->logicData->table,
             $dataPool->logicData->winningLines,
             $dataPool->logicData->combinationsRules,
-            $dataPool->logicData->linesRules
+            $dataPool->logicData->linesRules,
+            $dataPool->logicData->multiplier
         );
 
         return $dataPool;
@@ -129,23 +108,17 @@ class LogicWorkerSpinInstruction implements IWorkerInstruction
         return $dataPool;
     }
 
-    /**
-     * получения выигрыша по бонусным символам
-     *
-     * @param  IDataPool  $dataPool  [description]
-     * @param  IToolsPool $toolsPool [description]
-     *
-     * @return IDataPool             [description]
-     */
-    public function getBonusWinningsForMainGame(
+    // получения выигрыша по бонусным символам
+    public function getBonusWinningsForFeatureGame(
         IDataPool $dataPool,
         IToolsPool $toolsPool
     ): IDataPool {
-        $dataPool->logicData->payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForMainGame(
+        $dataPool->logicData->payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForFeatureGame(
             $dataPool->logicData->table,
             $dataPool->logicData->bonusRules,
             $dataPool->logicData->linesInGame,
-            $dataPool->logicData->lineBet
+            $dataPool->logicData->lineBet,
+            $dataPool->logicData->multiplier
         );
 
         return $dataPool;

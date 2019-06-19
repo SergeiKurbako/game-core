@@ -6,8 +6,7 @@ use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
 use Avior\GameCore\Base\IRequestDataSets;
-use Avior\GameCore\Base\IEvent;
-use Avior\GameCore\Base\IObserver;
+use Avior\GameCore\Base\IInstructionsPool;
 
 /**
  * Интерфейс для класса выполняющего определенное действие
@@ -19,12 +18,7 @@ interface IAction
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
+        IInstructionsPool $instructionsPool,
         IRequestDataSets $requestDataSets
     ): string;
-
-    public function attach(IObserver $observer);
-
-    public function detach(IObserver $observer);
-
-    public function notify(IEvent $event);
 }

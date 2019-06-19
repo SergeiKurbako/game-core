@@ -22,6 +22,8 @@ class GameDirector implements IGameDirector
 
     protected $actionsPool;
 
+    protected $instructionsPool;
+
     public $game;
 
     public function __construct()
@@ -57,10 +59,10 @@ class GameDirector implements IGameDirector
         $this->workersPool->addWorker('statisticsWorker', new \Avior\GameCore\Workers\StatisticsWorker);
         $this->workersPool->addWorker('verifierWorker', new \Avior\GameCore\Workers\VerifierWorker);
 
-        // добавление инструкций для воркеров
-        $instructionsPoolForLogicWorker = new \Avior\GameCore\WorkersInstructions\WorkerInstructionsPool;
-        $instructionsPoolForLogicWorker->addWorkerInstruction('spin', new \Avior\GameCore\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction());
-        $this->workersPool->logicWorker->addInstructionsPool($instructionsPoolForLogicWorker);
+        // сбор инструкций
+        $this->instructionsPool = new \Avior\GameCore\Instructions\InstructionsPool;
+        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction);
+        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'free_spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerFreeSpinInstruction);
 
         // сбор инструменов
         $this->toolsPool = new \Avior\GameCore\Tools\ToolsPool;
@@ -111,6 +113,7 @@ class GameDirector implements IGameDirector
         $this->game->setDataPool($this->dataPool);
         $this->game->setWorkersPool($this->workersPool);
         $this->game->setToolsPool($this->toolsPool);
+        $this->game->setInstructionsPool($this->instructionsPool);
 
         return $this->game;
     }

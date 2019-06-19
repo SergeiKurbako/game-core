@@ -2,15 +2,16 @@
 
 namespace Avior\GameCore\Base;
 
-use Avior\GameCore\Base\IWorkerInstruction;
+use Avior\GameCore\Base\IInstruction;
 
 /**
  * Интерфейс класса который будет хранить набор инструкций
  */
-interface IWorkerInstructionsPool
+interface IInstructionsPool
 {
-    public function addWorkerInstruction(
+    public function addInstruction(
+        string $type,
         string $name,
-        IWorkerInstruction $workerInstruction
+        IInstruction $instruction
     ): void;
 }

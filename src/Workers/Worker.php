@@ -7,6 +7,8 @@ use Avior\GameCore\Base\ISubject;
 use Avior\GameCore\Base\IEvent;
 use Avior\GameCore\Base\IObserver;
 use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IInstruction;
 use Avior\GameCore\Base\IWorkerInstructionsPool;
 
 /**
@@ -45,8 +47,26 @@ abstract class Worker implements IWorker, ISubject
         return $event->dataPool;
     }
 
-    public function addInstructionsPool(IWorkerInstructionsPool $workerInstructionsPool): void
-    {
-        $this->workerInstructionsPool = $workerInstructionsPool;
+    /**
+     * Последовательное выполнение всех методов, которые есть у объекта инструкции
+     *
+     * @param  IDataPool    $dataPool    [description]
+     * @param  IToolsPool   $toolsPool   [description]
+     * @param  IInstruction $instruction [description]
+     *
+     * @return IDataPool                 [description]
+     */
+    public function executeInstruction(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool,
+        IInstruction $instruction
+    ): IDataPool {
+        $instructionMethodNames = get_class_methods($instruction);
+
+        foreach ($instructionMethodNames as $methodName) {
+            $dataPool = $instruction->$methodName($dataPool, $toolsPool);
+        }
+
+        return $dataPool;
     }
 }

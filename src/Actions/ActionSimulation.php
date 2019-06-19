@@ -7,6 +7,7 @@ use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
 use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Base\IInstructionsPool;
 use Avior\GameCore\Events\ActionEvents\StartActionSpinEvent;
 use Avior\GameCore\Events\ActionEvents\EndActionSpinEvent;
 use Avior\GameCore\Events\ActionEvents\StartActionFreeSpinEvent;
@@ -22,9 +23,8 @@ class ActionSimulation extends Action
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
-        IRequestDataSets $requestDataSets,
-        array $table = [],
-        bool $simulation = true
+        IInstructionsPool $instructionsPool,
+        IRequestDataSets $requestDataSets
     ): string {
         // загрузка данных из запроса
         $dataPool = $workersPool->requestWorker->loadRequestData($requestArray, $dataPool, $toolsPool, $requestDataSets);

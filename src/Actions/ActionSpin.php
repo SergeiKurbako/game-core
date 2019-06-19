@@ -6,6 +6,7 @@ use Avior\GameCore\Base\IAction;
 use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IInstructionsPool;
 use Avior\GameCore\Base\IRequestDataSets;
 use Avior\GameCore\Events\ActionEvents\StartActionSpinEvent;
 use Avior\GameCore\Events\ActionEvents\EndActionSpinEvent;
@@ -18,19 +19,21 @@ class ActionSpin extends Action
     /**
      * Выполение действия кручения слота в основной игре
      *
-     * @param  array            $requestArray    [description]
-     * @param  IWorkersPool     $workersPool     [description]
-     * @param  IDataPool        $dataPool        [description]
-     * @param  IToolsPool       $toolsPool       [description]
-     * @param  IRequestDataSets $requestDataSets [description]
+     * @param  array             $requestArray     [description]
+     * @param  IWorkersPool      $workersPool      [description]
+     * @param  IDataPool         $dataPool         [description]
+     * @param  IToolsPool        $toolsPool        [description]
+     * @param  IInstructionsPool $instructionsPool [description]
+     * @param  IRequestDataSets  $requestDataSets  [description]
      *
-     * @return string                            json
+     * @return [type]                              [description]
      */
     public function __invoke(
         array $requestArray,
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
+        IInstructionsPool $instructionsPool,
         IRequestDataSets $requestDataSets
     ): string
     {
@@ -42,13 +45,17 @@ class ActionSpin extends Action
         // загрузка баланса
         $dataPool = $workersPool->balanceWorker->loadBalanceData($dataPool, $toolsPool);
 
-        // востановление состояния
+        // восстановление состояния
         $dataPool = $workersPool->recoveryWorker->recoveryData($dataPool, $toolsPool);
 
         // проверка возможности выполнения запроса
         $workersPool->verifierWorker->verificationSpinRequest($dataPool, $toolsPool);
         // вычисление результатов хода
-        $dataPool = $workersPool->logicWorker->getResultOfSpin($dataPool, $toolsPool);
+        $dataPool = $workersPool->logicWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->logicWorkerInstructions->spin
+        );
         // обновление данных связанных с деньгами
         $dataPool = $workersPool->balanceWorker->getResultOfSpin($dataPool, $toolsPool);
         // получение итогового стостояния
@@ -59,7 +66,7 @@ class ActionSpin extends Action
         // оповещение об окончании выполнения действия
         $dataPool = $this->notify(new EndActionSpinEvent($dataPool, $toolsPool));
 
-        // Сохранение данных для последующего востановления
+        // Сохранение данных для последующего восстановления
         $workersPool->recoveryWorker->saveRecoveryData($dataPool, $toolsPool);
 
         // подготовка данных для фронта

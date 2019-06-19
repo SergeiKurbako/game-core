@@ -45,184 +45,176 @@ class LogicWorker extends Worker
         return $dataPool;
     }
 
-    /**
-     * Получение результатов выполнения логики для спина в основной игре
-     *
-     * @param IDataPool $dataPool
-     * @param IToolsPool $toolsPool
-     *
-     * @return IDataPool
-     */
-    public function getResultOfSpin(
-        IDataPool $dataPool,
-        IToolsPool $toolsPool
-    ): IDataPool {
-        $instruction = new \Avior\GameCore\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction();
-
-        $class_methods = get_class_methods($instruction);
-
-        foreach ($class_methods as $method_name) {
-            $dataPool = $instruction->$method_name($dataPool, $toolsPool);
-        }
-
-        // // изменение данных в logicData в соответствии с запросом
-        // $dataPool->logicData = $toolsPool->dataTools->logicDataTool->loadDataFromRequest(
-        //     $dataPool->logicData,
-        //     $dataPool->requestData
-        // );
-        // //$dataPool->logicData->lineBet = $dataPool->requestData->lineBet;
-        //
-        // // получение рандомного занчения стола
-        // if ($dataPool->systemData->tablePreset === []) {
-        //     // получение процентов выпадения символов
-        //     $currentPercentages = $toolsPool->logicTools->tableTool
-        //     ->getCurrentPercentages(
-        //         $dataPool->logicData->percentagesRules,
-        //         $dataPool->stateData->screen,
-        //         $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
-        //     );
-        //
-        //     $table = $toolsPool->logicTools->tableTool->getRandomTable(
-        //         $currentPercentages
-        //     );
-        // } else {
-        //     $table = $dataPool->systemData->tablePreset;
-        // }
-        //
-        // //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
-        // //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win
-        // //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // 60
-        // //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
-        // //$table = [2,5,7,8,7,6,1,5,6,1,8,7,6,8,9];
-        //
-        // // получение выигрышных линий
-        // $winningLines = $toolsPool->logicTools->winLinesTool->getWinningLines(
-        //     $table,
-        //     $dataPool->logicData->linesRules,
-        //     $dataPool->logicData->linesInGame
-        // );
-        //
-        // // получение выигрыша по линиям
-        // $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
-        //     $dataPool->requestData->lineBet,
-        //     $table,
-        //     $winningLines,
-        //     $dataPool->logicData->combinationsRules,
-        //     $dataPool->logicData->linesRules
-        // );
-        //
-        // // получение выигрышных ячеек
-        // $winningCells = $toolsPool->logicTools->winLinesTool->getWinningCells(
-        //     $table,
-        //     $winningLines,
-        //     $dataPool->logicData->linesRules
-        // );
-        //
-        // // получения выигрыша по бонусным символам
-        // $payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForMainGame(
-        //     $table,
-        //     $dataPool->logicData->bonusRules,
-        //     $dataPool->logicData->linesInGame,
-        //     $dataPool->logicData->lineBet
-        // );
-        //
-        // // запись данных в dataPool
-        // $dataPool->logicData->table = $table;
-        // $dataPool->logicData->winningLines = $winningLines;
-        // $dataPool->logicData->winningCells = $winningCells;
-        // $dataPool->logicData->payoffsForLines = $payoffsForLines;
-        // $dataPool->logicData->payoffsForBonus = $payoffsForBonus;
-
-        return $dataPool;
-    }
-
-    /**
-     * Получение результатов хода в featureGame
-     *
-     * @param IDataPool $dataPool
-     * @param IToolsPool $toolsPool
-     *
-     * @return IDataPool
-     */
-    public function getResultOfFreeSpin(
-        IDataPool $dataPool,
-        IToolsPool $toolsPool
-    ): IDataPool {
-        // // получение процентов выпадения символов
-        // $currentPercentages = $toolsPool->logicTools->tableTool
-        //     ->getCurrentPercentages(
-        //         $dataPool->logicData->percentagesRules,
-        //         $dataPool->stateData->screen,
-        //         $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
-        //     );
-        //
-        // // получение рандомного занчения стола
-        // $table = $toolsPool->logicTools->tableTool->getRandomTable(
-        //     $currentPercentages
-        // );
-
-        // получение рандомного занчения стола
-        if ($dataPool->systemData->tablePreset === []) {
-            // получение процентов выпадения символов
-            $currentPercentages = $toolsPool->logicTools->tableTool
-            ->getCurrentPercentages(
-                $dataPool->logicData->percentagesRules,
-                $dataPool->stateData->screen,
-                $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
-            );
-
-            $table = $toolsPool->logicTools->tableTool->getRandomTable(
-                $currentPercentages
-            );
-        } else {
-            $table = $dataPool->systemData->tablePreset;
-        }
-
-        //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
-        //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win 20
-        //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // win 20
-        //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
-
-        // получение выигрышных линий
-        $winningLines = $toolsPool->logicTools->winLinesTool->getWinningLines(
-            $table,
-            $dataPool->logicData->linesRules,
-            $dataPool->logicData->linesInGame
-        );
-
-        // получение выигрыша по линиям
-        $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
-            $dataPool->requestData->lineBet,
-            $table,
-            $winningLines,
-            $dataPool->logicData->combinationsRules,
-            $dataPool->logicData->linesRules,
-            $dataPool->logicData->multiplier
-        );
-
-        // получение выигрышных ячеек
-        $winningCells = $toolsPool->logicTools->winLinesTool->getWinningCells(
-            $table,
-            $winningLines,
-            $dataPool->logicData->linesRules
-        );
-
-        // получения выигрыша по бонусным символам
-        $payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForFeatureGame(
-            $table,
-            $dataPool->logicData->bonusRules,
-            $dataPool->logicData->linesInGame,
-            $dataPool->logicData->lineBet,
-            $dataPool->logicData->multiplier
-        );
-
-        // запись данных в dataPool
-        $dataPool->logicData->table = $table;
-        $dataPool->logicData->winningLines = $winningLines;
-        $dataPool->logicData->winningCells = $winningCells;
-        $dataPool->logicData->payoffsForLines = $payoffsForLines;
-        $dataPool->logicData->payoffsForBonus = $payoffsForBonus;
-
-        return $dataPool;
-    }
+    // /**
+    //  * Получение результатов выполнения логики для спина в основной игре
+    //  *
+    //  * @param IDataPool $dataPool
+    //  * @param IToolsPool $toolsPool
+    //  *
+    //  * @return IDataPool
+    //  */
+    // public function getResultOfSpin(
+    //     IDataPool $dataPool,
+    //     IToolsPool $toolsPool
+    // ): IDataPool {
+    //     // изменение данных в logicData в соответствии с запросом
+    //     $dataPool->logicData = $toolsPool->dataTools->logicDataTool->loadDataFromRequest(
+    //         $dataPool->logicData,
+    //         $dataPool->requestData
+    //     );
+    //     //$dataPool->logicData->lineBet = $dataPool->requestData->lineBet;
+    //
+    //     // получение рандомного занчения стола
+    //     if ($dataPool->systemData->tablePreset === []) {
+    //         // получение процентов выпадения символов
+    //         $currentPercentages = $toolsPool->logicTools->tableTool
+    //         ->getCurrentPercentages(
+    //             $dataPool->logicData->percentagesRules,
+    //             $dataPool->stateData->screen,
+    //             $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
+    //         );
+    //
+    //         $table = $toolsPool->logicTools->tableTool->getRandomTable(
+    //             $currentPercentages
+    //         );
+    //     } else {
+    //         $table = $dataPool->systemData->tablePreset;
+    //     }
+    //
+    //     //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
+    //     //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win
+    //     //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // 60
+    //     //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
+    //     //$table = [2,5,7,8,7,6,1,5,6,1,8,7,6,8,9];
+    //
+    //     // получение выигрышных линий
+    //     $winningLines = $toolsPool->logicTools->winLinesTool->getWinningLines(
+    //         $table,
+    //         $dataPool->logicData->linesRules,
+    //         $dataPool->logicData->linesInGame
+    //     );
+    //
+    //     // получение выигрыша по линиям
+    //     $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
+    //         $dataPool->requestData->lineBet,
+    //         $table,
+    //         $winningLines,
+    //         $dataPool->logicData->combinationsRules,
+    //         $dataPool->logicData->linesRules
+    //     );
+    //
+    //     // получение выигрышных ячеек
+    //     $winningCells = $toolsPool->logicTools->winLinesTool->getWinningCells(
+    //         $table,
+    //         $winningLines,
+    //         $dataPool->logicData->linesRules
+    //     );
+    //
+    //     // получения выигрыша по бонусным символам
+    //     $payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForMainGame(
+    //         $table,
+    //         $dataPool->logicData->bonusRules,
+    //         $dataPool->logicData->linesInGame,
+    //         $dataPool->logicData->lineBet
+    //     );
+    //
+    //     // запись данных в dataPool
+    //     $dataPool->logicData->table = $table;
+    //     $dataPool->logicData->winningLines = $winningLines;
+    //     $dataPool->logicData->winningCells = $winningCells;
+    //     $dataPool->logicData->payoffsForLines = $payoffsForLines;
+    //     $dataPool->logicData->payoffsForBonus = $payoffsForBonus;
+    //
+    //     return $dataPool;
+    // }
+    //
+    // /**
+    //  * Получение результатов хода в featureGame
+    //  *
+    //  * @param IDataPool $dataPool
+    //  * @param IToolsPool $toolsPool
+    //  *
+    //  * @return IDataPool
+    //  */
+    // public function getResultOfFreeSpin(
+    //     IDataPool $dataPool,
+    //     IToolsPool $toolsPool
+    // ): IDataPool {
+    //     // // получение процентов выпадения символов
+    //     // $currentPercentages = $toolsPool->logicTools->tableTool
+    //     //     ->getCurrentPercentages(
+    //     //         $dataPool->logicData->percentagesRules,
+    //     //         $dataPool->stateData->screen,
+    //     //         $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
+    //     //     );
+    //     //
+    //     // // получение рандомного занчения стола
+    //     // $table = $toolsPool->logicTools->tableTool->getRandomTable(
+    //     //     $currentPercentages
+    //     // );
+    //
+    //     // получение рандомного занчения стола
+    //     if ($dataPool->systemData->tablePreset === []) {
+    //         // получение процентов выпадения символов
+    //         $currentPercentages = $toolsPool->logicTools->tableTool
+    //         ->getCurrentPercentages(
+    //             $dataPool->logicData->percentagesRules,
+    //             $dataPool->stateData->screen,
+    //             $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
+    //         );
+    //
+    //         $table = $toolsPool->logicTools->tableTool->getRandomTable(
+    //             $currentPercentages
+    //         );
+    //     } else {
+    //         $table = $dataPool->systemData->tablePreset;
+    //     }
+    //
+    //     //$table = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6]; // loose
+    //     //$table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6]; // win 20
+    //     //$table = [2,1,3,5,0,6,7,8,9,4,2,3,4,5,6]; // win 20
+    //     //$table = [10,2,3,4,5,6,7,8,9,10,2,3,10,5,2]; // featureGame + bonus
+    //
+    //     // получение выигрышных линий
+    //     $winningLines = $toolsPool->logicTools->winLinesTool->getWinningLines(
+    //         $table,
+    //         $dataPool->logicData->linesRules,
+    //         $dataPool->logicData->linesInGame
+    //     );
+    //
+    //     // получение выигрыша по линиям
+    //     $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
+    //         $dataPool->requestData->lineBet,
+    //         $table,
+    //         $winningLines,
+    //         $dataPool->logicData->combinationsRules,
+    //         $dataPool->logicData->linesRules,
+    //         $dataPool->logicData->multiplier
+    //     );
+    //
+    //     // получение выигрышных ячеек
+    //     $winningCells = $toolsPool->logicTools->winLinesTool->getWinningCells(
+    //         $table,
+    //         $winningLines,
+    //         $dataPool->logicData->linesRules
+    //     );
+    //
+    //     // получения выигрыша по бонусным символам
+    //     $payoffsForBonus = $toolsPool->logicTools->bonusCalculatorTool->getBonusWinningsForFeatureGame(
+    //         $table,
+    //         $dataPool->logicData->bonusRules,
+    //         $dataPool->logicData->linesInGame,
+    //         $dataPool->logicData->lineBet,
+    //         $dataPool->logicData->multiplier
+    //     );
+    //
+    //     // запись данных в dataPool
+    //     $dataPool->logicData->table = $table;
+    //     $dataPool->logicData->winningLines = $winningLines;
+    //     $dataPool->logicData->winningCells = $winningCells;
+    //     $dataPool->logicData->payoffsForLines = $payoffsForLines;
+    //     $dataPool->logicData->payoffsForBonus = $payoffsForBonus;
+    //
+    //     return $dataPool;
+    // }
 }

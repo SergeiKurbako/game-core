@@ -6,8 +6,9 @@ use Avior\GameCore\Base\IAction;
 use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
-use Avior\GameCore\Tools\RecoveryDataTool;
+use Avior\GameCore\Base\IInstructionsPool;
 use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Tools\RecoveryDataTool;
 use Avior\GameCore\Events\ActionEvents\StartActionCloseGameEvent;
 use Avior\GameCore\Events\ActionEvents\EndActionCloseGameEvent;
 
@@ -16,14 +17,26 @@ use Avior\GameCore\Events\ActionEvents\EndActionCloseGameEvent;
  */
 class ActionCloseGame extends Action
 {
+    /**
+     * Выполнение действия закрытия игры
+     *
+     * @param  array             $requestArray     [description]
+     * @param  IWorkersPool      $workersPool      [description]
+     * @param  IDataPool         $dataPool         [description]
+     * @param  IToolsPool        $toolsPool        [description]
+     * @param  IInstructionsPool $instructionsPool [description]
+     * @param  IRequestDataSets  $requestDataSets  [description]
+     *
+     * @return string                              json
+     */
     public function __invoke(
         array $requestArray,
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
+        IInstructionsPool $instructionsPool,
         IRequestDataSets $requestDataSets
-    ): string
-    {
+    ): string {
         // загрузка данных из запроса
         $dataPool = $workersPool->requestWorker->loadRequestData($requestArray, $dataPool, $toolsPool, $requestDataSets);
 

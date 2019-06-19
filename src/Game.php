@@ -8,6 +8,7 @@ use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IActionsPool;
 use Avior\GameCore\Base\IToolsPool;
 use Avior\GameCore\Base\IRequestDataSets;
+use Avior\GameCore\Base\IInstructionsPool;
 use Avior\GameCore\Data\DataPool;
 use Avior\GameCore\Workers\WorkersPool;
 
@@ -33,6 +34,10 @@ class Game implements IGame
 
     /** @var object содержащий объекты описывающие данные необходимые для запросов */
     public $requestDataSets;
+
+    /** @var object содержащий объекты описывающие инструкции
+    * (набор методов, который последовательно выполняется) */
+    public $instructionsPool;
 
     /**
      * Добавление объекта с данными в игру
@@ -85,6 +90,18 @@ class Game implements IGame
     }
 
     /**
+     * Добавление объекта содержащего объекты инструкции
+     *
+     * @param IInstructionsPool $instructionsPool
+     *
+     * @return void
+     */
+    public function setInstructionsPool(IInstructionsPool $instructionsPool): void
+    {
+        $this->instructionsPool = $instructionsPool;
+    }
+
+    /**
      * Добавление объекта описывающие данные получаемые в запросе
      *
      * @param IRequestsDataPool $requestsDataPool
@@ -118,6 +135,7 @@ class Game implements IGame
             $this->workersPool,
             $this->dataPool,
             $this->toolsPool,
+            $this->instructionsPool,
             $this->requestDataSets
         );
 

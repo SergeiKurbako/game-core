@@ -6,6 +6,7 @@ use Avior\GameCore\Base\IAction;
 use Avior\GameCore\Base\IWorkersPool;
 use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
+use Avior\GameCore\Base\IInstructionsPool;
 use Avior\GameCore\Base\IRequestDataSets;
 use Avior\GameCore\Events\ActionEvents\StartActionFreeSpinEvent;
 use Avior\GameCore\Events\ActionEvents\EndActionFreeSpinEvent;
@@ -18,22 +19,23 @@ class ActionFreeSpin extends Action
     /**
      * Выполение действия кручения слота в featureGame игре
      *
-     * @param  array            $requestArray    [description]
-     * @param  IWorkersPool     $workersPool     [description]
-     * @param  IDataPool        $dataPool        [description]
-     * @param  IToolsPool       $toolsPool       [description]
-     * @param  IRequestDataSets $requestDataSets [description]
+     * @param  array             $requestArray     [description]
+     * @param  IWorkersPool      $workersPool      [description]
+     * @param  IDataPool         $dataPool         [description]
+     * @param  IToolsPool        $toolsPool        [description]
+     * @param  IInstructionsPool $instructionsPool [description]
+     * @param  IRequestDataSets  $requestDataSets  [description]
      *
-     * @return string                            json
+     * @return string                              json
      */
     public function __invoke(
         array $requestArray,
         IWorkersPool $workersPool,
         IDataPool $dataPool,
         IToolsPool $toolsPool,
+        IInstructionsPool $instructionsPool,
         IRequestDataSets $requestDataSets
-    ): string
-    {
+    ): string {
         // загрузка данных из запроса
         $dataPool = $workersPool->requestWorker->loadRequestData($requestArray, $dataPool, $toolsPool, $requestDataSets);
 
@@ -49,7 +51,11 @@ class ActionFreeSpin extends Action
         // проверка возможности выполнения запроса
         $workersPool->verifierWorker->verificationFreeSpinRequest($dataPool, $toolsPool);
         // вычисление результатов хода
-        $dataPool = $workersPool->logicWorker->getResultOfFreeSpin($dataPool, $toolsPool);
+        $dataPool = $workersPool->logicWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->logicWorkerInstructions->free_spin
+        );
         // обновление данных связанных с деньгами
         $dataPool = $workersPool->balanceWorker->getResultOfFreeSpin($dataPool, $toolsPool);
         // получение итогового стостояния
