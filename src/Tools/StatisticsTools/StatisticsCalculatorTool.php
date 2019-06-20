@@ -71,6 +71,38 @@ class StatisticsCalculatorTool implements ITool
      *
      * @return int
      */
+    public function calculateTotalWinningsOnFeatureGame(
+        int $oldValue,
+        array $payoffsForLines,
+        array $payoffsForBonus
+    ): int
+    {
+        // получение общей ставки
+        $totalWinningsOnLines = 0;
+        foreach ($payoffsForLines as $key => $payoffsForLine) {
+            $totalWinningsOnLines += $payoffsForLine['winValue'];
+        }
+
+        // получение выигрыша на бонусных символах
+        $totalWinningsOnBonus = 0;
+        foreach ($payoffsForBonus as $key => $value) {
+            $totalWinningsOnBonus += $value['winning'];
+        }
+
+        $newValue = $oldValue + $totalWinningsOnLines + $totalWinningsOnBonus;
+
+        return $newValue;
+    }
+
+    /**
+     * Вычисление нового значения общего выигрыша в featureGame
+     *
+     * @param int $oldValue
+     * @param array $payoffsForLines
+     * @param array $payoffsForBonus
+     *
+     * @return int
+     */
     public function calculateIsWinOnFeatureGame(int $oldValue, array $payoffsForLines, array $payoffsForBonus): int
     {
         // получение выигрыша по линиям
@@ -126,6 +158,22 @@ class StatisticsCalculatorTool implements ITool
     }
 
     /**
+     * Вычисление общего проигрыша в featureGame
+     *
+     * @param int $oldValue
+     * @param int $lineBet
+     * @param int $linesInGame
+     *
+     * @return int
+     */
+    public function calculateTotalLossOnFeatureGame(int $oldValue, int $lineBet, int $linesInGame): int
+    {
+        $newValue = $oldValue + $lineBet * $linesInGame;
+
+        return $newValue;
+    }
+
+    /**
      * Вычисление общего кол-ва кручений
      *
      * @param int $oldValue
@@ -146,22 +194,20 @@ class StatisticsCalculatorTool implements ITool
      */
     public function calculateSpinCountInMainGame(
         int $spinCountInMainGame,
-        string $screen
+        string $screen,
+        bool $isDropFeatureGame
     ): int {
-        if ($screen === 'mainGame') {
+        if ($screen === 'mainGame' || $isDropFeatureGame) {
             $spinCountInMainGame += 1;
         }
 
         return $spinCountInMainGame;
     }
 
-    public function calculateSpinCountOnFeatureGame(int $oldValue, string $screen): int
-    {
-        if ($screen === 'featureGame') {
-            return $oldValue + 1;
-        } else {
-            return $oldValue;
-        }
+    public function calculateSpinCountInFeatureGame(
+        int $oldValue
+    ): int {
+        return $oldValue + 1;
     }
 
     public function calculateTotalWinSpinCount(int $winSpinCount, bool $isWin): int
@@ -176,15 +222,27 @@ class StatisticsCalculatorTool implements ITool
     public function calculateTotalWinSpinCountOnMainGame(
         int $winSpinCountInMainGame,
         bool $isWin,
-        string $screen
+        string $screen,
+        bool $isDropFeatureGame
     ): int {
-        if ($screen === 'mainGame') {
+        if ($screen === 'mainGame' || $isDropFeatureGame) {
             if ($isWin) {
                 $winSpinCountInMainGame += 1;
             }
         }
 
         return $winSpinCountInMainGame;
+    }
+
+    public function calculateTotalWinSpinCountOnFeatureGame(
+        int $winSpinCountInFeatureGame,
+        bool $isWin
+    ): int {
+        if ($isWin) {
+            $winSpinCountInFeatureGame += 1;
+        }
+
+        return $winSpinCountInFeatureGame;
     }
 
     public function calculateTotalLoseSpinCount(
@@ -212,6 +270,17 @@ class StatisticsCalculatorTool implements ITool
         return $loseSpinCountInMainGame;
     }
 
+    public function calculateLoseSpinCountOnFeatureGame(
+        int $loseSpinCountInFeatureGame,
+        bool $isWin
+    ): int {
+        if (!$isWin) {
+            $loseSpinCountInFeatureGame += 1;
+        }
+
+        return $loseSpinCountInFeatureGame;
+    }
+
     public function calculateFeatureGamesDropped(
         int $featureGamesDropped,
         bool $isDropFeatureGame
@@ -227,18 +296,27 @@ class StatisticsCalculatorTool implements ITool
         int $spinCount,
         int $winSpinCount
     ): float {
-        $percentWinSpins = $spinCount / 100 * $winSpinCount;
+        $percent = 100 / $spinCount * $winSpinCount;
 
-        return (float) $percentWinSpins;
+        return (float) $percent;
     }
 
     public function calculatePercentWinSpinsInMainGame(
         int $spinCount,
         int $winSpinCountInMainGame
     ): float {
-        $percentWinSpinsInMainGame = $spinCount / 100 * $winSpinCountInMainGame;
+        $percent = 100 / $spinCount * $winSpinCountInMainGame;
 
-        return (float) $percentWinSpinsInMainGame;
+        return (float) $percent;
+    }
+
+    public function calculatePercentWinSpinsInFeatureGame(
+        int $spinCountInFeatureGame,
+        int $winSpinCountInFeatureGame
+    ): float {
+        $percent = 100 / $spinCountInFeatureGame * $winSpinCountInFeatureGame;
+
+        return (float) $percent;
     }
 
     public function calculatePercentLoseSpins(
@@ -259,6 +337,15 @@ class StatisticsCalculatorTool implements ITool
         return (float) $percentLoseSpinsInMainGame;
     }
 
+    public function calculatePercentLoseSpinsInFeatureGame(
+        int $spinCountInFeatureGame,
+        int $loseSpinCountInFeatureGame
+    ): float {
+        $percentLoseSpinsInFeatureGame = 100 / $spinCountInFeatureGame * $loseSpinCountInFeatureGame;
+
+        return (float) $percentLoseSpinsInFeatureGame;
+    }
+
     public function calculateWinPercent(
         int $winnings,
         int $loss
@@ -272,9 +359,18 @@ class StatisticsCalculatorTool implements ITool
         int $winningsOnMainGame,
         int $loss
     ): float {
-        $winPercentOnMainGame = 100 / $loss * $winningsOnMainGame;
+        $percent = 100 / $loss * $winningsOnMainGame;
 
-        return (float) $winPercentOnMainGame;
+        return (float) $percent;
+    }
+
+    public function calculateWinPercentOnFeatureGame(
+        int $winningsOnFeatureGame,
+        int $loss
+    ): float {
+        $percent = 100 / $loss * $winningsOnFeatureGame;
+
+        return (float) $percent;
     }
 
     public function calculateStatisticOfWinCombinations(
@@ -302,6 +398,17 @@ class StatisticsCalculatorTool implements ITool
         return $statisticOfWinCombinationsInMainGame;
     }
 
+    public function calculateStatisticOfWinCombinationsInFeatureGame(
+        array $statisticOfWinCombinationsInFeatureGame, // [номер_символа => [кол-во_символов_в_комбинации => кол-во_выигрышей, ...], ... ]
+        array $winningLines // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+    ): array {
+        foreach ($winningLines as $winningLine) {
+            $statisticOfWinCombinationsInFeatureGame[$winningLine['symbol']][$winningLine['winCellCount']] += 1;
+        }
+
+        return $statisticOfWinCombinationsInFeatureGame;
+    }
+
     public function calculateStatisticsOfDroppedSymbols(
         array $statisticsOfDroppedSymbols, // [номер_символа => кол-во_выпадений]
         array $table // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
@@ -322,6 +429,17 @@ class StatisticsCalculatorTool implements ITool
         }
 
         return $statisticsOfDroppedSymbolsInMainGame;
+    }
+
+    public function calculateStatisticsOfDroppedSymbolsInFeatureGame(
+        array $statisticsOfDroppedSymbolsInFeatureGame, // [номер_символа => кол-во_выпадений]
+        array $table // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+    ): array {
+        foreach ($table as $symbol) {
+            $statisticsOfDroppedSymbolsInFeatureGame[$symbol] += 1;
+        }
+
+        return $statisticsOfDroppedSymbolsInFeatureGame;
     }
 
     public function calculateStatisticOfWinBonusCombinations(

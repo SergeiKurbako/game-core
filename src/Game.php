@@ -121,10 +121,17 @@ class Game implements IGame
      *
      * @return string               [description]
      */
-    public function executeAction(array $requestArray, array $tablePreset = []): string
+    public function executeAction(
+        array $requestArray,
+        array $tablePreset = [],
+        bool $isSimulation = false
+    ): string
     {
         // запись предустановленного стола в systemData
         $this->dataPool->systemData->tablePreset = $tablePreset;
+        $this->dataPool->systemData->isSimulation = $isSimulation;
+
+        $this->dataPool->systemData->startExecutionTime = microtime(true);
 
         // получение объекта действия
         $requesAction = $requestArray['action'];

@@ -19,42 +19,46 @@ class ResponseWorker extends Worker
      */
     public function makeResponse(IDataPool $dataPool): string
     {
-        $responseData = new \stdClass;
+        if ($dataPool->systemData->tablePreset !== []) {
+            $responseData = $dataPool;
+        } else {
+            $responseData = new \stdClass;
 
-        // создание объекта для ответа с данными stateData
-        $stateData = clone $dataPool->stateData;
-        unset($stateData->isWinOnJackpot);
-        unset($stateData->isWinOnDouble);
-        unset($stateData->isDropJackpot);
-        $responseData->stateData = $stateData;
+            // создание объекта для ответа с данными stateData
+            $stateData = clone $dataPool->stateData;
+            unset($stateData->isWinOnJackpot);
+            unset($stateData->isWinOnDouble);
+            unset($stateData->isDropJackpot);
+            $responseData->stateData = $stateData;
 
-        // создание объекта для ответа с данными balanceData
-        $balanceData = clone $dataPool->balanceData;
-        unset($balanceData->payoffByJackpot);
-        unset($balanceData->payoffByDouble);
-        $responseData->balanceData = $balanceData;
+            // создание объекта для ответа с данными balanceData
+            $balanceData = clone $dataPool->balanceData;
+            unset($balanceData->payoffByJackpot);
+            unset($balanceData->payoffByDouble);
+            $responseData->balanceData = $balanceData;
 
-        // создание объекта для ответа с данными sessionData
-        $responseData->sessionData = $dataPool->sessionData;
+            // создание объекта для ответа с данными sessionData
+            $responseData->sessionData = $dataPool->sessionData;
 
-        // создание объекта для ответа с данными логики
-        $logicData = clone $dataPool->logicData;
-        unset($logicData->maxLineBet);
-        unset($logicData->maxLinesInGame);
-        unset($logicData->minLineBet);
-        unset($logicData->minLinesInGame);
-        unset($logicData->linesRules);
-        unset($logicData->featureGameRules);
-        unset($logicData->bonusRules);
-        unset($logicData->combinationsRules);
-        unset($logicData->jackpotRules);
-        unset($logicData->percentagesRules);
-        unset($logicData->payoffsForDouble);
-        unset($logicData->payoffsForJackpot);
-        unset($logicData->startCountOfFreeSpinsInFeatureGame);
-        unset($logicData->startMultiplierInMainGame);
-        unset($logicData->startMultiplierInFeatureGame);
-        $responseData->logicData = $logicData;
+            // создание объекта для ответа с данными логики
+            $logicData = clone $dataPool->logicData;
+            unset($logicData->maxLineBet);
+            unset($logicData->maxLinesInGame);
+            unset($logicData->minLineBet);
+            unset($logicData->minLinesInGame);
+            unset($logicData->linesRules);
+            unset($logicData->featureGameRules);
+            unset($logicData->bonusRules);
+            unset($logicData->combinationsRules);
+            unset($logicData->jackpotRules);
+            unset($logicData->percentagesRules);
+            unset($logicData->payoffsForDouble);
+            unset($logicData->payoffsForJackpot);
+            unset($logicData->startCountOfFreeSpinsInFeatureGame);
+            unset($logicData->startMultiplierInMainGame);
+            unset($logicData->startMultiplierInFeatureGame);
+            $responseData->logicData = $logicData;
+        }
 
         return \json_encode($responseData);
     }

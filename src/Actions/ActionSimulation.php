@@ -46,8 +46,6 @@ class ActionSimulation extends Action
         $dataPool->balanceData->balance = 1000000000;
         $dataPool->systemData->isSimulation = true;
 
-        $start = microtime(true);
-
         // выполнение запросов в цикле
         for ($i = 0; $i < $requestArray['count_of_moves']; $i++) {
             if ($dataPool->stateData->screen === 'mainGame') {
@@ -83,8 +81,9 @@ class ActionSimulation extends Action
             }
         }
 
-        $time = microtime(true) - $start;
-        dd(__METHOD__, $time, $dataPool);
+        $dataPool->systemData->executionTime = microtime(true) - $dataPool->systemData->startExecutionTime;
+
+        dd($dataPool->statisticsData);
 
         // подготовка данных для фронта
         $response = $workersPool->responseWorker->makeResponse($dataPool, $toolsPool);
