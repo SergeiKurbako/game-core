@@ -49,7 +49,11 @@ class ActionOpenGame extends Action
         // загрузка баланса
         $dataPool = $workersPool->balanceWorker->loadBalanceData($dataPool, $toolsPool);
         // загрузка логики
-        $dataPool = $workersPool->logicWorker->loadLogicData($dataPool, $toolsPool);
+        $dataPool = $workersPool->logicWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->logicWorkerInstructions->load_data
+        );
         // загрузка состояния
         $dataPool = $workersPool->stateWorker->loadStateData($dataPool, $toolsPool);
         // загрузка статистики

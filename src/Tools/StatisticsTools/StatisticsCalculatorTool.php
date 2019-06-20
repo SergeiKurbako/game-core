@@ -99,11 +99,14 @@ class StatisticsCalculatorTool implements ITool
      *
      * @return int
      */
-    public function calculateTotalLoss(int $oldValue, int $lineBet, int $linesInGame): int
-    {
-        $newValue = $oldValue + $lineBet * $linesInGame;
+    public function calculateTotalLoss(
+        int $loss,
+        int $lineBet,
+        int $linesInGame
+    ): int {
+        $loss = $loss + $lineBet * $linesInGame;
 
-        return $newValue;
+        return $loss;
     }
 
     /**
@@ -141,18 +144,15 @@ class StatisticsCalculatorTool implements ITool
      *
      * @return int
      */
-    public function calculateSpinCountOnMainGame(int $oldValue, string $screen): int
-    {
+    public function calculateSpinCountInMainGame(
+        int $spinCountInMainGame,
+        string $screen
+    ): int {
         if ($screen === 'mainGame') {
-            return $oldValue + 1;
-        } else {
-            return $oldValue;
+            $spinCountInMainGame += 1;
         }
-    }
 
-    public function calculateJackpots(int $oldValue): int
-    {
-        return $oldValue;
+        return $spinCountInMainGame;
     }
 
     public function calculateSpinCountOnFeatureGame(int $oldValue, string $screen): int
@@ -164,8 +164,185 @@ class StatisticsCalculatorTool implements ITool
         }
     }
 
-    public function calculateFeatureGamesDropped(int $oldValue): int
+    public function calculateTotalWinSpinCount(int $winSpinCount, bool $isWin): int
     {
-        return $oldValue;
+        if ($isWin) {
+            $winSpinCount += 1;
+        }
+
+        return $winSpinCount;
     }
+
+    public function calculateTotalWinSpinCountOnMainGame(
+        int $winSpinCountInMainGame,
+        bool $isWin,
+        string $screen
+    ): int {
+        if ($screen === 'mainGame') {
+            if ($isWin) {
+                $winSpinCountInMainGame += 1;
+            }
+        }
+
+        return $winSpinCountInMainGame;
+    }
+
+    public function calculateTotalLoseSpinCount(
+        int $loseSpinCount,
+        bool $isWin
+    ): int {
+        if (!$isWin) {
+            $loseSpinCount += 1;
+        }
+
+        return $loseSpinCount;
+    }
+
+    public function calculateLoseSpinCountOnMainGame(
+        int $loseSpinCountInMainGame,
+        bool $isWin,
+        string $screen
+    ): int {
+        if ($screen === 'mainGame') {
+            if (!$isWin) {
+                $loseSpinCountInMainGame += 1;
+            }
+        }
+
+        return $loseSpinCountInMainGame;
+    }
+
+    public function calculateFeatureGamesDropped(
+        int $featureGamesDropped,
+        bool $isDropFeatureGame
+    ): int {
+        if ($isDropFeatureGame) {
+            $featureGamesDropped += 1;
+        }
+
+        return $featureGamesDropped;
+    }
+
+    public function calculatePercentWinSpins(
+        int $spinCount,
+        int $winSpinCount
+    ): float {
+        $percentWinSpins = $spinCount / 100 * $winSpinCount;
+
+        return (float) $percentWinSpins;
+    }
+
+    public function calculatePercentWinSpinsInMainGame(
+        int $spinCount,
+        int $winSpinCountInMainGame
+    ): float {
+        $percentWinSpinsInMainGame = $spinCount / 100 * $winSpinCountInMainGame;
+
+        return (float) $percentWinSpinsInMainGame;
+    }
+
+    public function calculatePercentLoseSpins(
+        int $spinCount,
+        int $loseSpinCount
+    ): float {
+        $percentLoseSpins = 100 / $spinCount * $loseSpinCount;
+
+        return (float) $percentLoseSpins;
+    }
+
+    public function calculatePercentLoseSpinsInMainGame(
+        int $spinCount,
+        int $loseSpinCountInMainGame
+    ): float {
+        $percentLoseSpinsInMainGame = 100 / $spinCount * $loseSpinCountInMainGame;
+
+        return (float) $percentLoseSpinsInMainGame;
+    }
+
+    public function calculateWinPercent(
+        int $winnings,
+        int $loss
+    ): float {
+        $winPercent = 100 / $loss * $winnings;
+
+        return (float) $winPercent;
+    }
+
+    public function calculateWinPercentOnMainGame(
+        int $winningsOnMainGame,
+        int $loss
+    ): float {
+        $winPercentOnMainGame = 100 / $loss * $winningsOnMainGame;
+
+        return (float) $winPercentOnMainGame;
+    }
+
+    public function calculateStatisticOfWinCombinations(
+        array $statisticOfWinCombinations, // [номер_символа => [кол-во_символов_в_комбинации => кол-во_выигрышей, ...], ... ]
+        array $winningLines // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+    ): array {
+        foreach ($winningLines as $winningLine) {
+            $statisticOfWinCombinations[$winningLine['symbol']][$winningLine['winCellCount']] += 1;
+        }
+
+        return $statisticOfWinCombinations;
+    }
+
+    public function calculateStatisticOfWinCombinationsInMainGame(
+        array $statisticOfWinCombinationsInMainGame, // [номер_символа => [кол-во_символов_в_комбинации => кол-во_выигрышей, ...], ... ]
+        array $winningLines, // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+        string $screen
+    ): array {
+        if ($screen === 'mainGame') {
+            foreach ($winningLines as $winningLine) {
+                $statisticOfWinCombinationsInMainGame[$winningLine['symbol']][$winningLine['winCellCount']] += 1;
+            }
+        }
+
+        return $statisticOfWinCombinationsInMainGame;
+    }
+
+    public function calculateStatisticsOfDroppedSymbols(
+        array $statisticsOfDroppedSymbols, // [номер_символа => кол-во_выпадений]
+        array $table // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+    ): array {
+        foreach ($table as $symbol) {
+            $statisticsOfDroppedSymbols[$symbol] += 1;
+        }
+
+        return $statisticsOfDroppedSymbols;
+    }
+
+    public function calculateStatisticsOfDroppedSymbolsInMainGame(
+        array $statisticsOfDroppedSymbolsInMainGame, // [номер_символа => кол-во_выпадений]
+        array $table // [['lineNumber' => , 'symbol' => , 'winCellCount' => ], ...]
+    ): array {
+        foreach ($table as $symbol) {
+            $statisticsOfDroppedSymbolsInMainGame[$symbol] += 1;
+        }
+
+        return $statisticsOfDroppedSymbolsInMainGame;
+    }
+
+    public function calculateStatisticOfWinBonusCombinations(
+        array $statisticOfWinBonusCombinations, // [кол-во_символов_в_комбинации => [кол-во_джокеров_в_комбинации => кол-во_выпадений]]
+        array $payoffsForBonus, // [['symbol' => , 'count' => , 'winning' => ], ...]
+        array $table
+    ): array {
+        $jockerCounter = 0;
+        foreach ($table as $symbol) {
+            if ($symbol === 0) {
+                $jockerCounter += 1;
+            }
+        }
+
+        foreach ($payoffsForBonus as $payoffForBonus) {
+            $statisticOfWinBonusCombinations[$payoffForBonus['count']][$jockerCounter] += 1;
+        }
+
+        return $statisticOfWinBonusCombinations;
+    }
+
+
+
 }

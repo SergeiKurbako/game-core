@@ -8,7 +8,7 @@ use Avior\GameCore\Base\IDataPool;
 use App\Models\V2Statistic;
 
 /**
- * Класс работаюзий со статистикой
+ * Класс работаюзий со статистикой пользователя
  */
 class StatisticsWorker extends Worker
 {
@@ -83,9 +83,125 @@ class StatisticsWorker extends Worker
 
         // вычисление общего кол-ва кручений в основной игре
         $dataPool->statisticsData->spinCountInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
-            ->calculateSpinCountOnMainGame(
+            ->calculateSpinCountInMainGame(
                 $dataPool->statisticsData->spinCountInMainGame,
                 $dataPool->stateData->screen
+            );
+
+        // вычисление общего кол-ва выигрышных кручений
+        $dataPool->statisticsData->winSpinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateTotalWinSpinCount(
+                $dataPool->statisticsData->winSpinCount,
+                $dataPool->stateData->isWin
+            );
+
+        // вычисление общего кол-ва выигрышных кручений в основной игре
+        $dataPool->statisticsData->winSpinCountInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateTotalWinSpinCountOnMainGame(
+                $dataPool->statisticsData->winSpinCountInMainGame,
+                $dataPool->stateData->isWinOnMain,
+                $dataPool->stateData->screen
+            );
+
+        // вычисление общего кол-ва проигрышных кручений
+        $dataPool->statisticsData->loseSpinCount = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateTotalLoseSpinCount(
+                $dataPool->statisticsData->loseSpinCount,
+                $dataPool->stateData->isWin
+            );
+
+        // вычисление общего кол-ва проигрышных кручений в основной игре
+        $dataPool->statisticsData->loseSpinCountInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateLoseSpinCountOnMainGame(
+                $dataPool->statisticsData->loseSpinCountInMainGame,
+                $dataPool->stateData->isWinOnMain,
+                $dataPool->stateData->screen
+            );
+
+        // вычисление кол-ва выпавших featureGame
+        $dataPool->statisticsData->featureGamesDropped = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateFeatureGamesDropped(
+                $dataPool->statisticsData->featureGamesDropped,
+                $dataPool->stateData->isDropFeatureGame
+            );
+
+        // общий процент выигрышных спинов
+        $dataPool->statisticsData->percentWinSpins = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculatePercentWinSpins(
+                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->winSpinCount
+            );
+
+        // общий процент выигрышных спинов в основной игре
+        $dataPool->statisticsData->percentWinSpinsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculatePercentWinSpinsInMainGame(
+                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->winSpinCountInMainGame
+            );
+
+        // общий процент проигрышных спинов
+        $dataPool->statisticsData->percentLoseSpins = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculatePercentLoseSpins(
+                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->loseSpinCount
+            );
+
+        // общий процент проигрышных спинов в основной игре
+        $dataPool->statisticsData->percentLoseSpinsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculatePercentLoseSpinsInMainGame(
+                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->loseSpinCountInMainGame
+            );
+
+        // процент выиграных денег относительно потраченных
+        $dataPool->statisticsData->winPercent = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateWinPercent(
+                $dataPool->statisticsData->winnings,
+                $dataPool->statisticsData->loss
+            );
+
+        // процент выиграных денег относительно потраченных в mainGame
+        $dataPool->statisticsData->winPercent = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateWinPercentOnMainGame(
+                $dataPool->statisticsData->winningsOnMainGame,
+                $dataPool->statisticsData->loss
+            );
+
+        // статистика выигршных комбинаций
+        $dataPool->statisticsData->statisticOfWinCombinations = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateStatisticOfWinCombinations(
+                $dataPool->statisticsData->statisticOfWinCombinations,
+                $dataPool->logicData->winningLines
+            );
+
+        // статистика выигршных комбинаций в основной игре
+        $dataPool->statisticsData->statisticOfWinCombinationsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateStatisticOfWinCombinationsInMainGame(
+                $dataPool->statisticsData->statisticOfWinCombinationsInMainGame,
+                $dataPool->logicData->winningLines,
+                $dataPool->stateData->screen
+            );
+
+        // статистика кол-ва выпадений символов
+        $dataPool->statisticsData->statisticsOfDroppedSymbols = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateStatisticsOfDroppedSymbols(
+                $dataPool->statisticsData->statisticsOfDroppedSymbols,
+                $dataPool->logicData->table
+            );
+
+        // статистика кол-ва выпадений символов в основной игре
+        $dataPool->statisticsData->statisticsOfDroppedSymbolsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateStatisticsOfDroppedSymbolsInMainGame(
+                $dataPool->statisticsData->statisticsOfDroppedSymbolsInMainGame,
+                $dataPool->logicData->table
+            );
+
+        // статистика выигршных комбинаций из-за которых началась featureGame
+        $dataPool->statisticsData->statisticOfWinBonusCombinations = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateStatisticOfWinBonusCombinations(
+                $dataPool->statisticsData->statisticOfWinBonusCombinations,
+                $dataPool->logicData->payoffsForBonus,
+                $dataPool->logicData->table
             );
 
         // сохранение данных статистики

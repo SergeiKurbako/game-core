@@ -75,7 +75,7 @@ class LogicWorkerFreeSpinInstruction implements IInstruction
         IDataPool $dataPool,
         IToolsPool $toolsPool
     ): IDataPool {
-        $payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
+        $dataPool->logicData->payoffsForLines = $toolsPool->logicTools->winLinesTool->getPayoffsForLines(
             $dataPool->requestData->lineBet,
             $dataPool->logicData->table,
             $dataPool->logicData->winningLines,

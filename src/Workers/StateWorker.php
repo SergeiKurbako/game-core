@@ -166,7 +166,7 @@ class StateWorker extends Worker
         return $dataPool;
     }
 
-    public function sendNotifies(
+    protected function sendNotifies(
         IDataPool $dataPool,
         IToolsPool $toolsPool
     ): IDataPool {

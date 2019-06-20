@@ -18,11 +18,10 @@ class BalanceWorker extends Worker
      */
     public function loadBalanceData(
         IDataPool $dataPool,
-        IToolsPool $toolsPool,
-        bool $simulation = false
+        IToolsPool $toolsPool
     ): IDataPool
     {
-        if ($simulation === false) { // не делается для симуляции или теста
+        if ($dataPool->systemData->isSimulation === false) { // не делается для симуляции или теста
             $dataPool->balanceData->balance = $toolsPool->dataTools->balanceDataTool->getUserBalance(
                 $dataPool->requestData->userId,
                 $dataPool->requestData->mode
@@ -40,8 +39,10 @@ class BalanceWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfSpin(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
-    {
+    public function getResultOfSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // проврка может ли пользователь сделать кручение
         $isPossibilitySpin = $toolsPool->balanceTools->possibilityСhecker
             ->checkIsPossibilitySpin(
@@ -79,7 +80,7 @@ class BalanceWorker extends Worker
         $dataPool->balanceData->totalWinningsInFeatureGame = 0;
 
         // изменение баланса в БД
-        if ($simulation === false) {
+        if ($dataPool->systemData->isSimulation === false) {
             $toolsPool->dataTools->balanceDataTool->updateUserBalance(
                 $dataPool->balanceData->balance,
                 $dataPool->sessionData->userId,
@@ -98,8 +99,10 @@ class BalanceWorker extends Worker
      *
      * @return IDataPool
      */
-    public function getResultOfFreeSpin(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
-    {
+    public function getResultOfFreeSpin(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
         // проврка может ли пользователь сделать кручение
         if ($dataPool->stateData->screen === 'featureGame') {
             $isPossibilitySpin = true;
@@ -130,7 +133,7 @@ class BalanceWorker extends Worker
         $dataPool->balanceData->totalWinningsInFeatureGame += $totalPayoff;
 
         // изменение баланса в БД
-        if ($simulation === false) {
+        if ($dataPool->systemData->isSimulation === false) {
             $toolsPool->dataTools->balanceDataTool->updateUserBalance(
                 $dataPool->balanceData->balance,
                 $dataPool->sessionData->userId,

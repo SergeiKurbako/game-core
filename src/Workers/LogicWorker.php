@@ -8,42 +8,42 @@ use Avior\GameCore\Base\IDataPool;
 
 class LogicWorker extends Worker
 {
-    /**
-     * Загрузка данных связанных с логикой игры
-     * Делается только при старте игры. Данные генерируются в независимости от
-     * восстановления сессии
-     *
-     * @param IDataPool $dataPool
-     * @param IToolsPool $toolsPool
-     *
-     * @return IDataPool
-     */
-    public function loadLogicData(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
-    {
-        // получение данных о линиях
-        $dataPool->logicData->linesRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'lines');
-        // получени данных о выигрышных комбинациях
-        $dataPool->logicData->combinationsRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'winCombinations');
-        // получени данных о выигрышных комбинациях на символах не зависящих от линий (бонусные символы)
-        $dataPool->logicData->bonusRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'bonus');
-        // получени правил выпадения featureGame
-        $dataPool->logicData->featureGameRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'featureGame');
-        // получени процентов выпадения символов
-        $dataPool->logicData->percentagesRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'percentages');
-
-        // получение процентов выпадения символов
-        $currentPercentages = $toolsPool->logicTools->tableTool->getCurrentPercentages(
-            $dataPool->logicData->percentagesRules,
-            'mainGame',
-            $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
-        );
-        // генерация стола
-        $dataPool->logicData->table = $toolsPool->logicTools->tableTool->getRandomTable(
-            $currentPercentages
-        );
-
-        return $dataPool;
-    }
+    // /**
+    //  * Загрузка данных связанных с логикой игры
+    //  * Делается только при старте игры. Данные генерируются в независимости от
+    //  * восстановления сессии
+    //  *
+    //  * @param IDataPool $dataPool
+    //  * @param IToolsPool $toolsPool
+    //  *
+    //  * @return IDataPool
+    //  */
+    // public function loadLogicData(IDataPool $dataPool, IToolsPool $toolsPool, bool $simulation = false): IDataPool
+    // {
+    //     // получение данных о линиях
+    //     $dataPool->logicData->linesRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'lines');
+    //     // получени данных о выигрышных комбинациях
+    //     $dataPool->logicData->combinationsRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'winCombinations');
+    //     // получени данных о выигрышных комбинациях на символах не зависящих от линий (бонусные символы)
+    //     $dataPool->logicData->bonusRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'bonus');
+    //     // получени правил выпадения featureGame
+    //     $dataPool->logicData->featureGameRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'featureGame');
+    //     // получени процентов выпадения символов
+    //     $dataPool->logicData->percentagesRules = $toolsPool->dataTools->logicDataTool->loadGameRules($dataPool->sessionData->gameId, 'percentages');
+    //
+    //     // получение процентов выпадения символов
+    //     $currentPercentages = $toolsPool->logicTools->tableTool->getCurrentPercentages(
+    //         $dataPool->logicData->percentagesRules,
+    //         'mainGame',
+    //         $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame
+    //     );
+    //     // генерация стола
+    //     $dataPool->logicData->table = $toolsPool->logicTools->tableTool->getRandomTable(
+    //         $currentPercentages
+    //     );
+    //
+    //     return $dataPool;
+    // }
 
     // /**
     //  * Получение результатов выполнения логики для спина в основной игре

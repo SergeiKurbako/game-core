@@ -61,6 +61,7 @@ class GameDirector implements IGameDirector
 
         // сбор инструкций
         $this->instructionsPool = new \Avior\GameCore\Instructions\InstructionsPool;
+        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'load_data', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerLoadDataInstruction);
         $this->instructionsPool->addInstruction('logicWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction);
         $this->instructionsPool->addInstruction('logicWorkerInstructions', 'free_spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerFreeSpinInstruction);
 

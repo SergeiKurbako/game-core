@@ -18,14 +18,14 @@ class StatisticsData implements IData
     /** @var int общий выигышь на featureGame */
     public $winningsOnFeatureGame = 0;
 
-    /** @var int общий проигрышь */
+    /** @var int общее кол-во денег потраченное на ходы */
     public $loss = 0;
 
-    /** @var int общий проигрышь на основной игре */
+    /** @var int общее кол-во денег потраченное на ходы в основной игре */
     public $lossOnMainGame = 0;
 
-    /** @var int общий проигрышь за featureGame */
-    public $loremossOnFeatureGame = 0;
+    /** @var int общее кол-во денег потраченное на ходы в featureGame */
+    public $lossOnFeatureGame = 0;
 
     /** @var int общее кол-во кручений */
     public $spinCount = 0;
@@ -35,6 +35,25 @@ class StatisticsData implements IData
 
     /** @var int общее кол-во кручений в featureGame */
     public $spinCountInFeatureGame = 0;
+
+    /** @var int общее кол-во выигрышных кручений */
+    public $winSpinCount = 0;
+
+    /** @var int общее кол-во выигрышных кручений в онсновной игре */
+    public $winSpinCountInMainGame = 0;
+
+    /** @var int общее кол-во выигрышных кручений в featureGame */
+    public $winSpinCountInFeatureGame = 0;
+
+    /** @var int общее кол-во проигрышных кручений */
+    public $loseSpinCount = 0;
+
+    /** @var int общее кол-во проигрышных кручений в онсновной игре */
+    public $loseSpinCountInMainGame = 0;
+
+    /** @var int общее кол-во проигрышных кручений в featureGame */
+    public $loseSpinCountInFeatureGame = 0;
+
 
     /** @var int общее кол-во выпавших featureGame */
     public $featureGamesDropped = 0;
@@ -72,46 +91,35 @@ class StatisticsData implements IData
     * относительно потраченных денег */
     public $winPercentOnFeatureGame = 0;
 
-    /** @var float общий процент проигрыша относительно потраченных денег */
-    public $losePercent = 0;
-
-    /** @var float общий процент проигрыша в основной игре относительно
-    * потраченных денег */
-    public $losePercentOnMainGame = 0;
-
-    /** @var float общий процент проигрыша на играх featureGame относительно
-    * потраченных денег */
-    public $losePercentOnFeatureGame = 0;
-
 
     /** @var array [номер_символа => [кол-во_символов_в_комбинации =>
     * кол-во_выигрышей, ...], ... ]
     * общая статистика выигршных комбинаций */
-    public $statisticOfWinCombinations = [];
+    public $statisticOfWinCombinations = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 
     /** @var array [номер_символа => [кол-во_символов_в_комбинации =>
     * кол-во_выигрышей, ...], ... ]
     * общая статистика выигршных комбинаций в основной игре */
-    public $statisticOfWinCombinationsInMainGame = [];
+    public $statisticOfWinCombinationsInMainGame = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 
     /** @var array [номер_символа => [кол-во_символов_в_комбинации =>
     * кол-во_выигрышей, ...], ... ]
     * общая статистика выигршных комбинаций в featureGame */
-    public $statisticOfWinCombinationsInFeatureGame = [];
+    public $statisticOfWinCombinationsInFeatureGame = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 
     /** @var array [номер_символа => кол-во_выпадений]
     * общая статистика кол-ва выпадений символов */
-    public $statisticsOfDroppedSymbols = [];
+    public $statisticsOfDroppedSymbols = [0,0,0,0,0,0,0,0,0,0,0];
 
     /** @var array [номер_символа => кол-во_выпадений]
     * общая статистика кол-ва выпадений символов в основной игре */
-    public $statisticsOfDroppedSymbolsInMainGame = [];
+    public $statisticsOfDroppedSymbolsInMainGame = [0,0,0,0,0,0,0,0,0,0,0];
 
     /** @var array [номер_символа => кол-во_выпадений]
     * общая статистика кол-ва выпадений символов в featureGame */
-    public $statisticsOfDroppedSymbolsInFeatureGame = [];
+    public $statisticsOfDroppedSymbolsInFeatureGame = [0,0,0,0,0,0,0,0,0,0,0];
 
     /** @var array [кол-во_символов_в_комбинации => [кол-во_джокеров_в_комбинации => кол-во_выпадений]]
     * статистика выигршных комбинаций из-за которых началась featureGame */
-    public $statisticOfWinBonusCombinations = [];
+    public $statisticOfWinBonusCombinations = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]];
 }
