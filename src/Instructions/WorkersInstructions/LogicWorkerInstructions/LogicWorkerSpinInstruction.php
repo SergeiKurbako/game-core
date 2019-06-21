@@ -63,7 +63,7 @@ class LogicWorkerSpinInstruction implements IInstruction
 
         //$dataPool->logicData->table = [2,10,3,5,10,6,7,8,0,4,2,3,4,5,6]; // drop featureGame
         //$dataPool->logicData->table = [6,5,7,5,9,3,5,9,7,9,4,3,10,9,4]; // 15
-        //$dataPool->logicData->table = [2,1,3,5,1,6,7,8,9,4,2,3,4,5,6];
+        //$dataPool->logicData->table = [2,10,3,5,10,6,7,8,0,4,2,3,4,5,6];
 
         return $dataPool;
     }
