@@ -137,7 +137,7 @@ class StatisticsWorker extends Worker
         // общий процент выигрышных спинов в основной игре
         $dataPool->statisticsData->percentWinSpinsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculatePercentWinSpinsInMainGame(
-                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->spinCountInMainGame,
                 $dataPool->statisticsData->winSpinCountInMainGame
             );
 
@@ -151,7 +151,7 @@ class StatisticsWorker extends Worker
         // общий процент проигрышных спинов в основной игре
         $dataPool->statisticsData->percentLoseSpinsInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculatePercentLoseSpinsInMainGame(
-                $dataPool->statisticsData->spinCount,
+                $dataPool->statisticsData->spinCountInMainGame,
                 $dataPool->statisticsData->loseSpinCountInMainGame
             );
 
