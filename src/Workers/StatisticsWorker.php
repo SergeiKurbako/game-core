@@ -206,6 +206,24 @@ class StatisticsWorker extends Worker
                 $dataPool->logicData->table
             );
 
+
+
+        // статистика кол-ва бонусных символов выпадающих за ход
+        $dataPool->statisticsData->droppedBonusSymbolsInOneSpin = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateDroppedBonusSymbolsInOneSpin(
+                $dataPool->statisticsData->droppedBonusSymbolsInOneSpin,
+                $dataPool->logicData->table
+            );
+
+        // статистика кол-ва бонусных символов выпадающих за ход в основной игре
+        $dataPool->statisticsData->droppedBonusSymbolsInOneSpinInMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateDroppedBonusSymbolsInOneSpin(
+                $dataPool->statisticsData->droppedBonusSymbolsInOneSpinInMainGame,
+                $dataPool->logicData->table
+            );
+
+
+
         // сохранение данных статистики
         if ($dataPool->systemData->isSimulation === false) {
             $statistics = $toolsPool
@@ -358,6 +376,47 @@ class StatisticsWorker extends Worker
                 $dataPool->statisticsData->statisticsOfDroppedSymbolsInFeatureGame,
                 $dataPool->logicData->table
             );
+
+        // статистика кол-ва бонусных символов выпадающих за ход
+        $dataPool->statisticsData->droppedBonusSymbolsInOneSpin = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateDroppedBonusSymbolsInOneSpin(
+                $dataPool->statisticsData->droppedBonusSymbolsInOneSpin,
+                $dataPool->logicData->table
+            );
+
+        // статистика кол-ва бонусных символов выпадающих за ход в featureGame
+        $dataPool->statisticsData->droppedBonusSymbolsInOneSpinInFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateDroppedBonusSymbolsInOneSpin(
+                $dataPool->statisticsData->droppedBonusSymbolsInOneSpinInFeatureGame,
+                $dataPool->logicData->table
+            );
+
+        // кол-во алмазов выпавшее за текущую featureGame
+        $dataPool->statisticsData->droppendDiamandsInCurrentFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateDroppendDiamandsInCurrentFeatureGame(
+                $dataPool->statisticsData->droppendDiamandsInCurrentFeatureGame,
+                $dataPool->logicData->table
+            );
+
+
+        if ($dataPool->stateData->isEndFeatureGame) {
+            // минимально кол-во алмазов выпавшее за период featureGame
+            $dataPool->statisticsData->minDroppendDiamandsInFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+                ->calculateMinCountDroppenDiamandsInFreeSpinGame(
+                    $dataPool->statisticsData->minDroppendDiamandsInFeatureGame,
+                    $dataPool->statisticsData->droppendDiamandsInCurrentFeatureGame
+                );
+
+            // максимальное кол-во алмазов выпавшее за период featureGame
+            $dataPool->statisticsData->maxDroppendDiamandsInFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+                ->calculateMaxCountDroppenDiamandsInFreeSpinGame(
+                    $dataPool->statisticsData->maxDroppendDiamandsInFeatureGame,
+                    $dataPool->statisticsData->droppendDiamandsInCurrentFeatureGame
+                );
+
+            // обнуление кол-ва алмазов в текущей featureGame
+            $dataPool->statisticsData->droppendDiamandsInCurrentFeatureGame = 0;
+        }
 
         // сохранение данных статистики
         if ($dataPool->systemData->isSimulation === false) {

@@ -9,6 +9,9 @@ use Avior\GameCore\Base\IData;
  */
 class LogicData implements IData
 {
+    /** @var int кол-во символов в игре */
+    public $countSymbolsInGame = 10;
+
     /** @var int ставка */
     public $lineBet = 1;
 

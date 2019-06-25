@@ -461,6 +461,55 @@ class StatisticsCalculatorTool implements ITool
         return $statisticOfWinBonusCombinations;
     }
 
+    public function calculateDroppedBonusSymbolsInOneSpin(
+        array $droppedBonusSymbolsInOneSpin,
+        array $table
+    ): array {
+        $count = 0;
+        foreach ($table as $key => $value) {
+            if ($value === 10) {
+                $count += 1;
+            }
+        }
 
+        $droppedBonusSymbolsInOneSpin[$count] = $droppedBonusSymbolsInOneSpin[$count] + 1;
+
+        return $droppedBonusSymbolsInOneSpin;
+    }
+
+    public function calculateDroppendDiamandsInCurrentFeatureGame(
+        int $droppendDiamandsInCurrentFeatureGame,
+        array $table
+    ): int {
+        foreach ($table as $key => $value) {
+            if ($value === 0) {
+                $droppendDiamandsInCurrentFeatureGame += 1;
+            }
+        }
+
+        return $droppendDiamandsInCurrentFeatureGame;
+    }
+
+    public function calculateMinCountDroppenDiamandsInFreeSpinGame(
+        int $minDroppendDiamandsInFeatureGame,
+        int $droppendDiamandsInCurrentFeatureGame
+    ): int {
+        if ($minDroppendDiamandsInFeatureGame > $droppendDiamandsInCurrentFeatureGame) {
+            $minDroppendDiamandsInFeatureGame = $droppendDiamandsInCurrentFeatureGame;
+        }
+
+        return $minDroppendDiamandsInFeatureGame;
+    }
+
+    public function calculateMaxCountDroppenDiamandsInFreeSpinGame(
+        int $maxDroppendDiamandsInFeatureGame,
+        int $droppendDiamandsInCurrentFeatureGame
+    ): int {
+        if ($maxDroppendDiamandsInFeatureGame < $droppendDiamandsInCurrentFeatureGame) {
+            $maxDroppendDiamandsInFeatureGame = $droppendDiamandsInCurrentFeatureGame;
+        }
+
+        return $maxDroppendDiamandsInFeatureGame;
+    }
 
 }

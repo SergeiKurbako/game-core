@@ -47,7 +47,7 @@ class ActionSimulation extends Action
         $dataPool->systemData->isSimulation = true;
 
         // выполнение запросов в цикле
-        for ($i = 0; $i < $requestArray['count_of_moves']; $i++) {
+        for ($i = 0; $i < $requestArray['spin_count']; $i++) {
             if ($dataPool->stateData->screen === 'mainGame') {
                 // оповещение об начале выполнения действия
                 $dataPool = $this->notify(new StartActionSpinEvent($dataPool, $toolsPool));
@@ -62,6 +62,7 @@ class ActionSimulation extends Action
                 // оповещение об окончании выполнения действия
                 $dataPool = $this->notify(new EndActionSpinEvent($dataPool, $toolsPool));
             } elseif ($dataPool->stateData->screen === 'featureGame') {
+                $requestArray['spin_count'] += 1;
                 // оповещение об начале выполнения действия
                 $dataPool = $this->notify(new StartActionFreeSpinEvent($dataPool, $toolsPool));
                 // вычисление результатов хода
@@ -82,8 +83,6 @@ class ActionSimulation extends Action
         }
 
         $dataPool->systemData->executionTime = microtime(true) - $dataPool->systemData->startExecutionTime;
-
-        dd($dataPool->statisticsData);
 
         // подготовка данных для фронта
         $response = $workersPool->responseWorker->makeResponse($dataPool, $toolsPool);
