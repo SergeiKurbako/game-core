@@ -3,6 +3,7 @@
 namespace Avior\GameCore\Workers;
 
 use Avior\GameCore\Base\IDataPool;
+use Avior\GameCore\Base\IToolsPool;
 use Avior\GameCore\Data\DataPool;
 
 /**
@@ -61,5 +62,20 @@ class ResponseWorker extends Worker
         }
 
         return \json_encode($responseData);
+    }
+
+    /**
+     * Метод отправляющий уведомления о событиях
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    protected function sendNotifies(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        return $dataPool;
     }
 }

@@ -35,7 +35,8 @@ class GameDirector implements IGameDirector
         $this->dataPool->addData('balanceData', new \Avior\GameCore\Data\BalanceData);
         $this->dataPool->addData('logicData', new \Avior\GameCore\Data\LogicData);
         $this->dataPool->addData('requestData', new \Avior\GameCore\Data\RequestData);
-        $this->dataPool->addData('statisticsData', new \Avior\GameCore\Data\StatisticsData);
+        $this->dataPool->addData('userStatisticsData', new \Avior\GameCore\Data\StatisticsData);
+        $this->dataPool->addData('gameStatisticsData', new \Avior\GameCore\Data\StatisticsData);
         $this->dataPool->addData('longData', new \Avior\GameCore\Data\LongData);
         $this->dataPool->addData('systemData', new \Avior\GameCore\Data\SystemData);
 
@@ -61,9 +62,21 @@ class GameDirector implements IGameDirector
 
         // сбор инструкций
         $this->instructionsPool = new \Avior\GameCore\Instructions\InstructionsPool;
-        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'load_data', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerLoadDataInstruction);
+        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'loadData', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerLoadDataInstruction);
         $this->instructionsPool->addInstruction('logicWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerSpinInstruction);
-        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'free_spin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerFreeSpinInstruction);
+        $this->instructionsPool->addInstruction('logicWorkerInstructions', 'freeSpin', new \Avior\GameCore\Instructions\WorkersInstructions\LogicWorkerInstructions\LogicWorkerFreeSpinInstruction);
+        $this->instructionsPool->addInstruction('userStatisticsWorkerInstructions', 'loadData', new \Avior\GameCore\Instructions\WorkersInstructions\UserStatisticsWorkerInstructions\UserStatisticsWorkerLoadDataInstruction);
+        $this->instructionsPool->addInstruction('userStatisticsWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\UserStatisticsWorkerInstructions\UserStatisticsWorkerSpinInstruction);
+        $this->instructionsPool->addInstruction('userStatisticsWorkerInstructions', 'freeSpin', new \Avior\GameCore\Instructions\WorkersInstructions\UserStatisticsWorkerInstructions\UserStatisticsWorkerFreeSpinInstruction);
+        $this->instructionsPool->addInstruction('gameStatisticsWorkerInstructions', 'loadData', new \Avior\GameCore\Instructions\WorkersInstructions\GameStatisticsWorkerInstructions\GameStatisticsWorkerLoadDataInstruction);
+        $this->instructionsPool->addInstruction('gameStatisticsWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\GameStatisticsWorkerInstructions\GameStatisticsWorkerSpinInstruction);
+        $this->instructionsPool->addInstruction('gameStatisticsWorkerInstructions', 'freeSpin', new \Avior\GameCore\Instructions\WorkersInstructions\GameStatisticsWorkerInstructions\GameStatisticsWorkerFreeSpinInstruction);
+        $this->instructionsPool->addInstruction('stateWorkerInstructions', 'loadData', new \Avior\GameCore\Instructions\WorkersInstructions\StateWorkerInstructions\StateWorkerLoadDataInstruction);
+        $this->instructionsPool->addInstruction('stateWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\StateWorkerInstructions\StateWorkerSpinInstruction);
+        $this->instructionsPool->addInstruction('stateWorkerInstructions', 'freeSpin', new \Avior\GameCore\Instructions\WorkersInstructions\StateWorkerInstructions\StateWorkerFreeSpinInstruction);
+        $this->instructionsPool->addInstruction('balanceWorkerInstructions', 'loadData', new \Avior\GameCore\Instructions\WorkersInstructions\BalanceWorkerInstructions\BalanceWorkerLoadDataInstruction);
+        $this->instructionsPool->addInstruction('balanceWorkerInstructions', 'spin', new \Avior\GameCore\Instructions\WorkersInstructions\BalanceWorkerInstructions\BalanceWorkerSpinInstruction);
+        $this->instructionsPool->addInstruction('balanceWorkerInstructions', 'freeSpin', new \Avior\GameCore\Instructions\WorkersInstructions\BalanceWorkerInstructions\BalanceWorkerFreeSpinInstruction);
 
         // сбор инструменов
         $this->toolsPool = new \Avior\GameCore\Tools\ToolsPool;

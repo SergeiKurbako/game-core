@@ -81,4 +81,19 @@ class SessionWorker extends Worker
 
         return $dataPool;
     }
+
+    /**
+     * Метод отправляющий уведомления о событиях
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    protected function sendNotifies(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        return $dataPool;
+    }
 }

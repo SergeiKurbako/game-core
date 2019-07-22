@@ -7,7 +7,7 @@ use Avior\GameCore\Base\IDataPool;
 use Avior\GameCore\Base\IToolsPool;
 
 /**
- * Класс содержащий набор методов, которые последовательно выполняется в воркером
+ * Класс содержащий набор методов, которые последовательно выполняются в воркером
  */
 class LogicWorkerFreeSpinInstruction implements IInstruction
 {

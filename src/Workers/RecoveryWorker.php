@@ -46,8 +46,8 @@ class RecoveryWorker extends Worker
             $dataPool->stateData = $toolsPool->dataTools->recoveryDataTool
                 ->recoveryData($dataPool->stateData, $prevDataPool->stateData);
 
-            $dataPool->statisticsData = $toolsPool->dataTools->recoveryDataTool
-                ->recoveryData($dataPool->statisticsData, $prevDataPool->statisticsData);
+            // $dataPool->statisticsData = $toolsPool->dataTools->recoveryDataTool
+            //     ->recoveryData($dataPool->statisticsData, $prevDataPool->statisticsData);
 
             $dataPool->longData = $toolsPool->dataTools->recoveryDataTool
                 ->recoveryData($dataPool->longData, $prevDataPool->longData);
@@ -68,5 +68,20 @@ class RecoveryWorker extends Worker
     public function saveRecoveryData(IDataPool $dataPool, IToolsPool $toolsPool): void
     {
         $toolsPool->dataTools->recoveryDataTool->saveRecoveryData($dataPool);
+    }
+
+    /**
+     * Метод отправляющий уведомления о событиях
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    protected function sendNotifies(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        return $dataPool;
     }
 }

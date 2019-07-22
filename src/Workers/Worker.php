@@ -48,7 +48,8 @@ abstract class Worker implements IWorker, ISubject
     }
 
     /**
-     * Последовательное выполнение всех методов, которые есть у объекта инструкции
+     * Последовательное выполнение всех методов, которые есть у объекта инструкции.
+     * После выполнения инструкции делается оповещение о событиях.
      *
      * @param  IDataPool    $dataPool    [description]
      * @param  IToolsPool   $toolsPool   [description]
@@ -67,6 +68,23 @@ abstract class Worker implements IWorker, ISubject
             $dataPool = $instruction->$methodName($dataPool, $toolsPool);
         }
 
+        // отправка уведомлений о событиях
+        $dataPool = $this->sendNotifies($dataPool, $toolsPool);
+
         return $dataPool;
     }
+
+    /**
+     * Метод отправляющий уведомления о событиях.
+     * Отправка событий делается исходя из данных в $dataPool (т.е. пишутся условия)
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    protected abstract function sendNotifies(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool;
 }

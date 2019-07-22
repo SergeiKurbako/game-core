@@ -47,17 +47,35 @@ class ActionOpenGame extends Action
         // загрузка сессии
         $dataPool = $workersPool->sessionWorker->loadSessionData($dataPool, $toolsPool);
         // загрузка баланса
-        $dataPool = $workersPool->balanceWorker->loadBalanceData($dataPool, $toolsPool);
+        $dataPool = $workersPool->balanceWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->balanceWorkerInstructions->loadData
+        );
         // загрузка логики
         $dataPool = $workersPool->logicWorker->executeInstruction(
             $dataPool,
             $toolsPool,
-            $instructionsPool->logicWorkerInstructions->load_data
+            $instructionsPool->logicWorkerInstructions->loadData
         );
         // загрузка состояния
-        $dataPool = $workersPool->stateWorker->loadStateData($dataPool, $toolsPool);
-        // загрузка статистики
-        $dataPool = $workersPool->statisticsWorker->loadStatisticsData($dataPool, $toolsPool);
+        $dataPool = $workersPool->stateWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->stateWorkerInstructions->loadData
+        );
+        // загрузка статистики пользователя по данной игре
+        $dataPool = $workersPool->statisticsWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->userStatisticsWorkerInstructions->loadData
+        );
+        // загрузка статистики по данной игре
+        $dataPool = $workersPool->statisticsWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->gameStatisticsWorkerInstructions->loadData
+        );
 
         // востановление состояния
         $dataPool = $workersPool->recoveryWorker->recoveryData($dataPool, $toolsPool);
@@ -70,7 +88,6 @@ class ActionOpenGame extends Action
 
         // Сохранение данных для последующего востановления
         $workersPool->recoveryWorker->saveRecoveryData($dataPool, $toolsPool);
-
 
         return $response;
     }

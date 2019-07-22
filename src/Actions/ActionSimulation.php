@@ -31,17 +31,29 @@ class ActionSimulation extends Action
         // загрузка сессии
         $dataPool = $workersPool->sessionWorker->loadSessionData($dataPool, $toolsPool);
         // загрузка баланса
-        $dataPool = $workersPool->balanceWorker->loadBalanceData($dataPool, $toolsPool);
+        $dataPool = $workersPool->balanceWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->balanceWorkerInstructions->loadData
+        );
         // загрузка логики
         $dataPool = $workersPool->logicWorker->executeInstruction(
             $dataPool,
             $toolsPool,
-            $instructionsPool->logicWorkerInstructions->load_data
+            $instructionsPool->logicWorkerInstructions->loadData
         );
         // загрузка состояния
-        $dataPool = $workersPool->stateWorker->loadStateData($dataPool, $toolsPool);
+        $dataPool = $workersPool->stateWorker->executeInstruction(
+            $dataPool,
+            $toolsPool,
+            $instructionsPool->stateWorkerInstructions->loadData
+        );
         // загрузка статистики
-        $dataPool = $workersPool->statisticsWorker->loadStatisticsData($dataPool, $toolsPool);
+        // $dataPool = $workersPool->statisticsWorker->executeInstruction(
+        //     $dataPool,
+        //     $toolsPool,
+        //     $instructionsPool->userStatisticsWorkerInstructions->loadData
+        // );
 
         $dataPool->balanceData->balance = 1000000000;
         $dataPool->systemData->isSimulation = true;
@@ -54,11 +66,23 @@ class ActionSimulation extends Action
                 // вычисление результатов хода
                 $dataPool = $workersPool->logicWorker->executeInstruction($dataPool, $toolsPool, $instructionsPool->logicWorkerInstructions->spin);
                 // обновление данных связанных с деньгами
-                $dataPool = $workersPool->balanceWorker->getResultOfSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->balanceWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->balanceWorkerInstructions->spin
+                );
                 // получение итогового стостояния
-                $dataPool = $workersPool->stateWorker->getResultOfSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->stateWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->stateWorkerInstructions->spin
+                );
                 // обновление статистики
-                $dataPool = $workersPool->statisticsWorker->getResultOfSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->statisticsWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->userStatisticsWorkerInstructions->spin
+                );
                 // оповещение об окончании выполнения действия
                 $dataPool = $this->notify(new EndActionSpinEvent($dataPool, $toolsPool));
             } elseif ($dataPool->stateData->screen === 'featureGame') {
@@ -69,14 +93,26 @@ class ActionSimulation extends Action
                 $dataPool = $workersPool->logicWorker->executeInstruction(
                     $dataPool,
                     $toolsPool,
-                    $instructionsPool->logicWorkerInstructions->free_spin
+                    $instructionsPool->logicWorkerInstructions->freeSpin
                 );
                 // обновление данных связанных с деньгами
-                $dataPool = $workersPool->balanceWorker->getResultOfFreeSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->balanceWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->balanceWorkerInstructions->freeSpin
+                );
                 // получение итогового стостояния
-                $dataPool = $workersPool->stateWorker->getResultOfFreeSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->stateWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->stateWorkerInstructions->freeSpin
+                );
                 // обновление статистики
-                $dataPool = $workersPool->statisticsWorker->getResultOfFreeSpin($dataPool, $toolsPool);
+                $dataPool = $workersPool->statisticsWorker->executeInstruction(
+                    $dataPool,
+                    $toolsPool,
+                    $instructionsPool->userStatisticsWorkerInstructions->freeSpin
+                );
                 // оповещение об окончании выполнения действия
                 $dataPool = $this->notify(new EndActionFreeSpinEvent($dataPool, $toolsPool));
             }

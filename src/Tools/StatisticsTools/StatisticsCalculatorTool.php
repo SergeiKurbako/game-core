@@ -481,6 +481,22 @@ class StatisticsCalculatorTool implements ITool
         return $droppedBonusSymbolsInOneSpin;
     }
 
+    public function calculateDroppedBonusSymbolsInOneSpinInMainGame(
+        array $droppedBonusSymbolsInOneSpin,
+        array $table
+    ): array {
+        $count = 0;
+        foreach ($table as $key => $value) {
+            if ($value === 10) {
+                $count += 1;
+            }
+        }
+
+        $droppedBonusSymbolsInOneSpin[$count] = $droppedBonusSymbolsInOneSpin[$count] + 1;
+
+        return $droppedBonusSymbolsInOneSpin;
+    }
+
     public function calculateDroppendDiamandsInCurrentFeatureGame(
         int $droppendDiamandsInCurrentFeatureGame,
         array $table
