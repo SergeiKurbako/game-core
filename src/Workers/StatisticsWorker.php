@@ -346,7 +346,9 @@ class StatisticsWorker extends Worker
         $dataPool->statisticsData->winPercentOnFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
             ->calculateWinPercentOnFeatureGame(
                 $dataPool->statisticsData->winningsOnFeatureGame,
-                $dataPool->statisticsData->loss
+                $dataPool->statisticsData->loss,
+                $dataPool->statisticsData->winnings,
+                $dataPool->statisticsData->winningsOnMainGame
             );
 
         // статистика выигршных комбинаций

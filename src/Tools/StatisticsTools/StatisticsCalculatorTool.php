@@ -366,9 +366,13 @@ class StatisticsCalculatorTool implements ITool
 
     public function calculateWinPercentOnFeatureGame(
         int $winningsOnFeatureGame,
-        int $loss
+        int $loss,
+        int $winnings,
+        int $winningsOnMainGame
     ): float {
-        $percent = 100 / $loss * $winningsOnFeatureGame;
+        $percent = 100 / $loss * ($winnings - $winningsOnMainGame);
+
+        //$percent = 100 / $loss * $winningsOnFeatureGame;
 
         return (float) $percent;
     }
