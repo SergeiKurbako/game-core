@@ -9,6 +9,9 @@ use Avior\GameCore\Base\IData;
  */
 class StatisticsData implements IData
 {
+    /** @var int сумма сделанных ставок */
+    public $totalBet = 0;
+
     /** @var int общий выигышь */
     public $winnings = 0;
 

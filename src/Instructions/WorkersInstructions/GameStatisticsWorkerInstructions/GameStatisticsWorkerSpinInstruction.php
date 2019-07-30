@@ -12,6 +12,23 @@ use Avior\GameCore\Base\IToolsPool;
 class GameStatisticsWorkerSpinInstruction implements IInstruction
 {
     /**
+     * Вычисление суммы всех сделанных ставок
+     *
+     * @param  IDataPool  $dataPool
+     * @param  IToolsPool $toolsPool
+     *
+     * @return IDataPool
+     */
+    public function getTotalBet(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        $dataPool->gameStatisticsData->totalBet += $dataPool->logicData->lineBet * $dataPool->logicData->linesInGame;
+        
+        return $dataPool;
+    }
+
+    /**
      * Вычисление общего выигрыша
      *
      * @param  IDataPool  $dataPool  [description]
