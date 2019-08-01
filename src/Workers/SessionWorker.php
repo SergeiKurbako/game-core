@@ -30,7 +30,6 @@ class SessionWorker extends Worker
             $dataPool->requestData->mode
         );
 
-
         // при наличии работающей (не завершенной) сессии делается ее восстановление
         if ($isWorkingSession) {
             // получение не завершенной сессии

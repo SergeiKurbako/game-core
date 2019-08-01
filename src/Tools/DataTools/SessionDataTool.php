@@ -26,6 +26,7 @@ class SessionDataTool implements ITool
         $session = V2Session::where('user_id', $userId)
             ->where('game_id', $gameId)
             ->where('mode', $mode)
+            ->where('status', 'work')
             ->first();
 
         $check = true;

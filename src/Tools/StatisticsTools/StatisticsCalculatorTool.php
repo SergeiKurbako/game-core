@@ -370,9 +370,8 @@ class StatisticsCalculatorTool implements ITool
         int $winnings,
         int $winningsOnMainGame
     ): float {
+        //$percent = 100 / $loss * ($winnings - $winningsOnMainGame);
         $percent = 100 / $loss * ($winnings - $winningsOnMainGame);
-
-        //$percent = 100 / $loss * $winningsOnFeatureGame;
 
         return (float) $percent;
     }

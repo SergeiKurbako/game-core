@@ -545,6 +545,29 @@ class UserStatisticsWorkerSpinInstruction implements IInstruction
     }
 
     /**
+     * Процент выиграных денег относительно потраченных в featureGame
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    public function getWinPercentOnFeatureGame(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        $dataPool->userStatisticsData->winPercentOnFeatureGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateWinPercentOnFeatureGame(
+                $dataPool->userStatisticsData->winningsOnFeatureGame,
+                $dataPool->userStatisticsData->loss,
+                $dataPool->userStatisticsData->winnings,
+                $dataPool->userStatisticsData->winningsOnMainGame
+            );
+
+        return $dataPool;
+    }
+
+    /**
      * Сохранение данных статистики
      *
      * @param  IDataPool  $dataPool  [description]

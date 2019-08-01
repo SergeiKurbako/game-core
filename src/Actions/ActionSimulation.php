@@ -118,6 +118,17 @@ class ActionSimulation extends Action
             }
         }
 
+        // dd(
+        //     __METHOD__,
+        //     $dataPool->userStatisticsData->loss,
+        //     $dataPool->userStatisticsData->winnings,
+        //     $dataPool->userStatisticsData->winningsOnMainGame,
+        //     $dataPool->userStatisticsData->winningsOnFeatureGame,
+        //     $dataPool->userStatisticsData->winPercent,
+        //     $dataPool->userStatisticsData->winningsOnMainGame,
+        //     $dataPool->userStatisticsData->winPercentOnFeatureGame
+        // );
+
         $dataPool->systemData->executionTime = microtime(true) - $dataPool->systemData->startExecutionTime;
 
         // подготовка данных для фронта

@@ -490,6 +490,27 @@ class UserStatisticsWorkerFreeSpinInstruction implements IInstruction
     }
 
     /**
+     * Процент выиграных денег относительно потраченных в mainGame
+     *
+     * @param  IDataPool  $dataPool  [description]
+     * @param  IToolsPool $toolsPool [description]
+     *
+     * @return IDataPool             [description]
+     */
+    public function getWinPercentOnMainGame(
+        IDataPool $dataPool,
+        IToolsPool $toolsPool
+    ): IDataPool {
+        $dataPool->userStatisticsData->winPercentOnMainGame = $toolsPool->statisticsTools->statisticsCalculatorTool
+            ->calculateWinPercentOnMainGame(
+                $dataPool->userStatisticsData->winningsOnMainGame,
+                $dataPool->userStatisticsData->loss
+            );
+
+        return $dataPool;
+    }
+
+    /**
      * Сохранение данных статистики
      *
      * @param  IDataPool  $dataPool  [description]
